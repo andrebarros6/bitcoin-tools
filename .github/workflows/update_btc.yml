@@ -1,0 +1,73 @@
+name: Update BTC Price
+
+on:
+  schedule:
+    - cron: "0 8 * * *"  # daily at 08:00 UTC
+  workflow_dispatch:      # allow manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install requests pandas
+
+      - name: Fetch BTC price and update CSV
+        run: |
+          python - <<'EOF'
+          import requests
+          import pandas as pd
+          from datetime import date, timedelta
+          from pathlib import Path
+
+          csv_path = Path("data/btc_eur.csv")
+          df = pd.read_csv(csv_path)
+          df["Date"] = pd.to_datetime(df["Date"])
+
+          last_date = df["Date"].max().date()
+          today = date.today()
+
+          # Fetch daily closes from CoinGecko for any missing days
+          days_missing = (today - last_date).days
+          if days_missing <= 0:
+              print("Already up to date.")
+              exit()
+
+          url = "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart"
+          params = {"vs_currency": "eur", "days": days_missing + 1, "interval": "daily"}
+          resp = requests.get(url, params=params, timeout=30)
+          resp.raise_for_status()
+          prices = resp.json()["prices"]  # [[timestamp_ms, price], ...]
+
+          new_rows = []
+          for ts, price in prices:
+              row_date = date.fromtimestamp(ts / 1000)
+              if row_date > last_date and row_date < today:
+                  new_rows.append({"Date": row_date.strftime("%Y-%m-%d"), "Price": round(price, 2)})
+
+          if not new_rows:
+              print("No new data to add.")
+              exit()
+
+          new_df = pd.DataFrame(new_rows)
+          df["Date"] = df["Date"].dt.strftime("%Y-%m-%d")
+          df = pd.concat([df, new_df], ignore_index=True).drop_duplicates("Date")
+          df.to_csv(csv_path, index=False)
+          print(f"Added {len(new_rows)} new row(s).")
+          EOF
+
+      - name: Commit updated BTC data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/btc_eur.csv
+          git diff --cached --quiet || git commit -m "chore: update BTC price data [$(date -u +%Y-%m-%d)]"
+          git push

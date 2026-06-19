@@ -1,0 +1,110 @@
+name: Update Imob Data
+
+on:
+  schedule:
+    - cron: "0 9 1 * *"  # 1st of every month at 09:00 UTC
+  workflow_dispatch:      # allow manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install requests beautifulsoup4 pandas
+
+      - name: Scrape idealista and update CSV
+        run: |
+          python - <<'EOF'
+          import requests
+          from bs4 import BeautifulSoup
+          import pandas as pd
+          import re
+          from pathlib import Path
+
+          url = "https://www.idealista.pt/media/relatorios-preco-habitacao/venda/historico/"
+          headers = {"User-Agent": "Mozilla/5.0 (compatible; data-bot/1.0)"}
+
+          resp = requests.get(url, headers=headers, timeout=30)
+          resp.raise_for_status()
+
+          soup = BeautifulSoup(resp.text, "html.parser")
+
+          # Find the price history table
+          table = soup.find("table")
+          if not table:
+              raise ValueError("Could not find table on idealista page — page structure may have changed.")
+
+          PT_MONTHS = {
+              "janeiro": 1, "fevereiro": 2, "março": 3, "abril": 4,
+              "maio": 5, "junho": 6, "julho": 7, "agosto": 8,
+              "setembro": 9, "outubro": 10, "novembro": 11, "dezembro": 12
+          }
+
+          rows = []
+          for tr in table.find_all("tr")[1:]:  # skip header
+              cells = [td.get_text(strip=True) for td in tr.find_all("td")]
+              if len(cells) < 2:
+                  continue
+
+              # Parse "Maio 2026" → "01-05-2026"
+              month_year = cells[0].lower().split()
+              if len(month_year) != 2:
+                  continue
+              month_name, year = month_year
+              month_num = PT_MONTHS.get(month_name)
+              if not month_num:
+                  continue
+              date_str = f"01-{month_num:02d}-{year}"
+
+              # Parse "3.142 €/m2" → 3142
+              price_raw = cells[1].replace(".", "").replace("\xa0", "").replace(",", ".")
+              price_match = re.search(r"[\d.]+", price_raw)
+              if not price_match:
+                  continue
+              price = int(float(price_match.group()))
+
+              # Parse variation columns — strip +/spaces, keep sign
+              def parse_pct(s):
+                  s = s.replace(" ", "").replace("\xa0", "")
+                  return s if s else ""
+
+              rows.append({
+                  "Mes": date_str,
+                  "Preco m2 [EUR]": price,
+                  "Variacao mensal": parse_pct(cells[2]) if len(cells) > 2 else "",
+                  "Variacao trimestral": parse_pct(cells[3]) if len(cells) > 3 else "",
+                  "Variacao anual": parse_pct(cells[4]) if len(cells) > 4 else "",
+              })
+
+          if not rows:
+              raise ValueError("No rows parsed — scraper needs to be updated.")
+
+          scraped_df = pd.DataFrame(rows)
+
+          csv_path = Path("imob/m2-casas-PT.csv")
+          existing_df = pd.read_csv(csv_path)
+
+          # Merge: scraped data wins for overlapping months
+          merged = pd.concat([scraped_df, existing_df], ignore_index=True)
+          merged = merged.drop_duplicates(subset="Mes", keep="first")
+          merged["_date"] = pd.to_datetime(merged["Mes"], format="%d-%m-%Y")
+          merged = merged.sort_values("_date", ascending=False).drop(columns="_date")
+          merged.to_csv(csv_path, index=False)
+          print(f"CSV updated with {len(scraped_df)} rows from idealista.")
+          EOF
+
+      - name: Commit updated imob data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add imob/m2-casas-PT.csv
+          git diff --cached --quiet || git commit -m "chore: update imob price data [$(date -u +%Y-%m-%d)]"
+          git push
