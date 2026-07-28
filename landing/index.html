@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bitcoinpt — Bitcoin vs. inflação, com dados reais</title>
+<meta name="description" content="O euro perde poder de compra todos os anos. Comparamos com Bitcoin — em imóveis, no cabaz alimentar, e nos PPR.">
+<style>
+  :root {
+    --color-bg: #0a0a0a;
+    --color-surface: #111111;
+    --color-surface-raised: #1a1a1a;
+    --color-border: rgba(255,255,255,0.08);
+    --color-border-strong: rgba(255,255,255,0.16);
+    --color-text: #ededed;
+    --color-text-secondary: #a1a1a1;
+    --color-text-tertiary: #6b6b6b;
+    --color-accent: #f7931a;
+    --color-accent-hover: #e07f0e;
+    --color-accent-muted: rgba(247,147,26,0.1);
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+  }
+
+  .wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  header.hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 16px;
+    max-width: 20ch;
+  }
+
+  .stat {
+    color: var(--color-accent);
+  }
+
+  .subhead {
+    font-size: 16px;
+    color: var(--color-text-secondary);
+    max-width: 58ch;
+    margin: 0;
+  }
+
+  section.tools {
+    padding: 48px 0 64px;
+  }
+
+  .section-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-text-tertiary);
+  }
+
+  .status.live .dot {
+    background: var(--color-accent);
+  }
+
+  .status.live {
+    color: var(--color-accent);
+  }
+
+  .card p {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .btn {
+    display: inline-block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-strong);
+    color: var(--color-text);
+    transition: background 150ms, border-color 150ms;
+  }
+
+  .btn:hover {
+    background: var(--color-surface-raised);
+  }
+
+  .btn.primary {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #0a0a0a;
+    font-weight: 600;
+  }
+
+  .btn.primary:hover {
+    background: var(--color-accent-hover);
+    border-color: var(--color-accent-hover);
+  }
+
+  .btn.disabled {
+    color: var(--color-text-tertiary);
+    border-color: var(--color-border);
+    cursor: default;
+    pointer-events: none;
+  }
+
+  footer {
+    border-top: 1px solid var(--color-border);
+    padding: 24px 0 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  footer p {
+    font-size: 13px;
+    color: var(--color-text-tertiary);
+    margin: 0;
+  }
+
+  footer a {
+    color: var(--color-text-tertiary);
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-border-strong);
+  }
+
+  footer a:hover {
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 640px) {
+    h1 { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">bitcoinpt</p>
+    <h1>O euro perde poder de compra todos os anos. Bitcoin não é a exceção — é <span class="stat">o contraponto</span>.</h1>
+    <p class="subhead">Comparamos com dados reais: o preço do m² em Portugal, o custo do cabaz alimentar, e o retorno do PPR — a par de Bitcoin.</p>
+  </header>
+
+  <section class="tools">
+    <p class="section-label">As ferramentas</p>
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <h2>Imobiliário</h2>
+          <span class="status live"><span class="dot"></span>Ativo</span>
+        </div>
+        <p>O preço do m² em Portugal, em euros e em Bitcoin, desde 2015.</p>
+        <a class="btn primary" href="https://imob.barrosbuilds.com">Ver os dados</a>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h2>Cabaz alimentar</h2>
+          <span class="status"><span class="dot"></span>Em breve</span>
+        </div>
+        <p>O custo do cabaz alimentar português, em euros e em Bitcoin.</p>
+        <span class="btn disabled">Dados em preparação</span>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <h2>PPR</h2>
+          <span class="status"><span class="dot"></span>Em breve</span>
+        </div>
+        <p>O PPR existe para proteger a tua reforma da inflação. Compara o retorno com o de Bitcoin.</p>
+        <span class="btn disabled">Dados em preparação</span>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>Dados atualizados diariamente via CoinGecko, Idealista e DECO PROTESTE.</p>
+    <a href="https://barrosbuilds.com">barrosbuilds.com</a>
+  </footer>
+</div>
+
+</body>
+</html>
