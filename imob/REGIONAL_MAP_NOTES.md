@@ -35,12 +35,18 @@ Splices the two series at Q4 2019 (2019-10-01): appraisal data for dates before,
 ### 6. Pipeline validated end-to-end (`preview_regional.py`)
 Confirmed EUR→BTC join (`../data/btc_eur.csv`, monthly) works. Sample Lisboa/Porto/Évora, Q1 2020→Q4 2025: EUR/m² up 44–78%, same m² down 87–89% in BTC terms. **Note `btc_eur.csv` is monthly (day=01 always)**, not daily.
 
+### 7. Boundary geometry fetched, dissolved, simplified — DONE
+- `fetch_caop_geometry.py`: DGT's OGC API has no working multi-value filter and per-property single-item filtering takes ~20s/request regardless of payload size (looks like an unindexed scan) — 565+ sequential filtered calls would've taken hours. Instead it paginates through all 3,049 mainland features (200/page) and keeps only the 622 needed CAOP `dtmnfr` codes, exiting early once all are found. Took ~8 min, stopped at page 2400/3049. **622/622 matched.**
+- `build_map_geometry.py`: tags each raw polygon with its INE `geo_cod`, then shells out to `mapshaper` (via `npx`, Node.js) to dissolve the ~46 multi-polygon union-parish cases into one shape each and simplify (8% vector retention) for web use.
+- Result: **`freguesias_web.geojson`, 565 shapes** — exact 1:1 match with `caop_ine_join.csv`, verified. **2.3MB**, down from 27MB unsimplified (`caop_geometry_matched.geojson`, kept in the repo so re-simplifying doesn't require re-fetching).
+- Properties per feature: `geo_cod`, `geo_dsg`, `municipio` — joins directly against `ine_precos_m2_full.csv` and `blended_municipio_series.csv` on `geo_cod`.
+
 ## Not done yet
 
-1. **Actual polygon geometry fetch**, scoped to the ~565 matched freguesias only, plus dissolving ~46 multi-polygon union cases into single shapes, then simplify for web use.
-2. **Madeira/Açores boundary source** — only needed if national (not just mainland) coverage matters. Not investigated.
-3. **Fix the 6 remaining mainland CAOP name mismatches** — low priority, pattern understood (parenthetical sub-parish splitting).
-4. **No map UI built.** Data + join + blend + validation are done; nothing rendered yet. This is the next real task — everything upstream of it (data, geo join, time-scope) is settled.
+1. **No map UI built.** Data + geo join + geometry + blend + validation are all done; nothing rendered yet. This is the only remaining task before a working prototype — everything upstream is complete.
+2. **Madeira/Açores boundary source** — only needed if national (not just mainland) coverage matters. Not investigated. 10 Funchal parishes have INE price data but no CAOP boundary.
+3. **Fix the 6 remaining mainland CAOP name mismatches** — low priority, pattern understood (parenthetical sub-parish splitting), affects 6 of 581 freguesias.
+4. **Simplification tolerance (8%) is untuned** — chosen as a reasonable default, not visually verified against the original shapes yet. Worth a quick visual check once the map renders before considering it final.
 
 ## Settled decisions (do not re-litigate without new information)
 
