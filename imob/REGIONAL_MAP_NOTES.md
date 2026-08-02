@@ -1,6 +1,6 @@
 # Regional map feature — data, join, blend (done) + next steps
 
-Goal: Portugal map where user selects a region and sees EUR/BTC price evolution for that region (m2-casas-PT.csv equivalent, but regional). User decided (2026-08-02): at least 10 years of history required; blend appraisal data pre-Q4-2019 with transaction sales data post-Q4-2019, current status reviewed before deciding on a 20-year national-only fallback.
+Goal: Portugal map where user selects a region and sees EUR/BTC price evolution for that region (m2-casas-PT.csv equivalent, but regional). User decided (2026-08-02): at least 10 years of history required; blend appraisal data pre-Q4-2019 with transaction sales data post-Q4-2019. Time-scope is now settled: no separate 20-year national-only fallback — 15 years of município-level blended history (for 145/306 municípios) is enough, not worth a third data source/methodology for 5 more years of national-only context.
 
 ## What's done
 
@@ -37,11 +37,15 @@ Confirmed EUR→BTC join (`../data/btc_eur.csv`, monthly) works. Sample Lisboa/P
 
 ## Not done yet
 
-1. **Decide on the 20-year national-only fallback view.** Now that full coverage is known: município-level blended history reaches ~15 years (2011–2026) for 145/306 municípios; freguesia-level stays capped at ~6 years (Q4 2019+, 397 parishes) — the appraisal series never reaches parish granularity, that's a hard ceiling, not a scoping choice. Open question for the user: is a separate ~20-year *national-only* chart (via Banco de Portugal / Confidencial Imobiliário) still wanted on top of this, given município-level already reaches 15 years for roughly half of municípios?
-2. **Actual polygon geometry fetch**, scoped to the ~565 matched freguesias only, plus dissolving ~46 multi-polygon union cases into single shapes, then simplify for web use.
-3. **Madeira/Açores boundary source** — only needed if national (not just mainland) coverage matters. Not investigated.
-4. **Fix the 6 remaining mainland CAOP name mismatches** — low priority, pattern understood (parenthetical sub-parish splitting).
-5. **No map UI built.** Data + join + blend + validation are done; nothing rendered yet.
+1. **Actual polygon geometry fetch**, scoped to the ~565 matched freguesias only, plus dissolving ~46 multi-polygon union cases into single shapes, then simplify for web use.
+2. **Madeira/Açores boundary source** — only needed if national (not just mainland) coverage matters. Not investigated.
+3. **Fix the 6 remaining mainland CAOP name mismatches** — low priority, pattern understood (parenthetical sub-parish splitting).
+4. **No map UI built.** Data + join + blend + validation are done; nothing rendered yet. This is the next real task — everything upstream of it (data, geo join, time-scope) is settled.
+
+## Settled decisions (do not re-litigate without new information)
+
+- **Time scope**: no 20-year national-only fallback. Município-level (~15yr for 145/306 municípios) + freguesia-level (~6yr for 397 parishes) blended data is the full scope. Decided 2026-08-02.
+- **Blend methodology**: appraisal (bank valuation) pre-Q4-2019, transaction sales post-Q4-2019, spliced with a visible `source` marker per row. Decided 2026-08-02.
 
 ## Design note
 
