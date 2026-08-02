@@ -1,0 +1,17 @@
+geo_cod,geo_dsg,municipio,reason
+112030293,"União das freguesias de Barcelos, Vila Boa e Vila Frescainha (São Martinho e São Pedro)",Barcelos,name_mismatch
+119030876,"União das freguesias de Airão Santa Maria, Airão São João e Vermil",Guimarães,name_mismatch
+119030887,União das freguesias de Sande Vila Nova e Sande São Clemente,Guimarães,name_mismatch
+11A010936,União de freguesias de São Miguel de Souto e Mosteirô,Santa Maria da Feira,name_mismatch
+1B0151007,"União das freguesias do Seixal, Arrentela e Aldeia de Paio Pires",Seixal,name_mismatch
+150080812,"União de freguesias de Querença, Tôr e Benafim",Loulé,name_mismatch
+300310303,Funchal (Santa Luzia),Funchal,acores_madeira_not_in_caop
+300310304,Funchal (Santa Maria Maior),Funchal,acores_madeira_not_in_caop
+300310308,Funchal (São Pedro),Funchal,acores_madeira_not_in_caop
+300310310,Funchal (Sé),Funchal,acores_madeira_not_in_caop
+300310301,Imaculado Coração de Maria,Funchal,acores_madeira_not_in_caop
+300310302,Monte,Funchal,acores_madeira_not_in_caop
+300310305,Santo António,Funchal,acores_madeira_not_in_caop
+300310306,São Gonçalo,Funchal,acores_madeira_not_in_caop
+300310307,São Martinho,Funchal,acores_madeira_not_in_caop
+300310309,São Roque,Funchal,acores_madeira_not_in_caop

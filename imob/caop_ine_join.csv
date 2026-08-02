@@ -1,0 +1,566 @@
+geo_cod,geo_dsg,municipio,dtmnfr_codes
+112030202,Aborim,Barcelos,030202
+112030203,Adães,Barcelos,030203
+112030205,Airó,Barcelos,030205
+112030206,Aldreu,Barcelos,030206
+112030208,Alvelos,Barcelos,030208
+112030209,Arcozelo,Barcelos,030209
+112030210,Areias,Barcelos,030210
+112030212,Balugães,Barcelos,030212
+112030213,Barcelinhos,Barcelos,030213
+112030215,Barqueiros,Barcelos,030215
+112030216,Cambeses,Barcelos,030216
+112030218,Carapeços,Barcelos,030218
+112030220,Carvalhal,Barcelos,030220
+112030221,Carvalhas,Barcelos,030221
+112030224,Cossourado,Barcelos,030224
+112030228,Cristelo,Barcelos,030228
+112030234,Fornelos,Barcelos,030234
+112030235,Fragoso,Barcelos,030235
+112030268,Galegos (Santa Maria),Barcelos,030268
+112030272,Galegos (São Martinho),Barcelos,030272
+112030237,Gilmonde,Barcelos,030237
+112030242,Lama,Barcelos,030242
+112030243,Lijó,Barcelos,030243
+112030244,Macieira de Rates,Barcelos,030244
+112030245,Manhente,Barcelos,030245
+112030247,Martim,Barcelos,030247
+112030252,Moure,Barcelos,030252
+112030254,Oliveira,Barcelos,030254
+112030255,Palme,Barcelos,030255
+112030256,Panque,Barcelos,030256
+112030257,Paradela,Barcelos,030257
+112030259,Pereira,Barcelos,030259
+112030260,Perelhal,Barcelos,030260
+112030261,Pousa,Barcelos,030261
+112030263,Remelhe,Barcelos,030263
+112030265,Rio Covo (Santa Eugénia),Barcelos,030265
+112030264,Roriz,Barcelos,030264
+112030279,Silva,Barcelos,030279
+112030277,Tamel (São Veríssimo),Barcelos,030277
+112030282,Ucha,Barcelos,030282
+112030290,União das freguesias de Alheira e Igreja Nova,Barcelos,030290
+112030291,União das freguesias de Alvito (São Pedro e São Martinho) e Couto,Barcelos,030291
+112030292,União das freguesias de Areias de Vilar e Encourados,Barcelos,030292
+112030294,União das freguesias de Campo e Tamel (São Pedro Fins),Barcelos,030294
+112030295,União das freguesias de Carreira e Fonte Coberta,Barcelos,030295
+112030296,"União das freguesias de Chorente, Góios, Courel, Pedra Furada e Gueral",Barcelos,030296
+112030297,União das freguesias de Creixomil e Mariz,Barcelos,030297
+112030298,União das freguesias de Durrães e Tregosa,Barcelos,030298
+112030299,União das freguesias de Gamil e Midões,Barcelos,030299
+1120302FA,"União das freguesias de Milhazes, Vilar de Figos e Faria",Barcelos,0302FA
+1120302FB,União das freguesias de Negreiros e Chavão,Barcelos,0302FB
+1120302FC,União das freguesias de Quintiães e Aguiar,Barcelos,0302FC
+1120302FD,União das freguesias de Sequeade e Bastuço (São João e Santo Estevão),Barcelos,0302FD
+1120302FE,União das freguesias de Silveiros e Rio Covo (Santa Eulália),Barcelos,0302FK;0302FJ
+1120302FF,União das freguesias de Tamel (Santa Leocádia) e Vilar do Monte,Barcelos,0302FF
+1120302FG,"União das freguesias de Viatodos, Grimancelos, Minhotães e Monte de Fralães",Barcelos,0302FG
+1120302FH,União das freguesias de Vila Cova e Feitos,Barcelos,0302FH
+112030283,Várzea,Barcelos,030283
+112030287,Vila Seca,Barcelos,030287
+112030301,Adaúfe,Braga,030301
+112030349,Braga (São Vicente),Braga,030349
+112030351,Braga (São Vítor),Braga,030351
+112030312,Espinho,Braga,030312
+112030313,Esporões,Braga,030313
+112030315,Figueiredo,Braga,030315
+112030319,Gualtar,Braga,030319
+112030322,Lamas,Braga,030322
+112030325,Mire de Tibães,Braga,030325
+112030330,Padim da Graça,Braga,030330
+112030331,Palmeira,Braga,030331
+112030334,Pedralva,Braga,030334
+112030336,Priscos,Braga,030336
+112030338,Ruilhe,Braga,030338
+112030354,Sequeira,Braga,030354
+112030355,Sobreposta,Braga,030355
+112030356,Tadim,Braga,030356
+112030357,Tebosa,Braga,030357
+112030363,União das freguesias de Arentim e Cunha,Braga,030363
+112030364,"União das freguesias de Braga (Maximinos, Sé e Cividade)",Braga,030364
+112030365,União das freguesias de Braga (São José de São Lázaro e São João do Souto),Braga,030365
+112030366,União das freguesias de Cabreiros e Passos (São Julião),Braga,030366
+112030367,"União das freguesias de Celeirós, Aveleda e Vimieiro",Braga,030367
+112030368,União das freguesias de Crespos e Pousada,Braga,030368
+112030369,União das freguesias de Escudeiros e Penso (Santo Estêvão e São Vicente),Braga,030369
+112030370,União das freguesias de Este (São Pedro e São Mamede),Braga,030370
+112030371,União das freguesias de Ferreiros e Gondizalves,Braga,030371
+112030372,União das freguesias de Guisande e Oliveira (São Pedro),Braga,030372
+112030373,União das freguesias de Lomar e Arcos,Braga,030373
+112030374,"União das freguesias de Merelim (São Paio), Panoias e Parada de Tibães",Braga,030374
+112030375,União das freguesias de Merelim (São Pedro) e Frossos,Braga,030375
+112030376,União das freguesias de Morreira e Trandeiras,Braga,030376
+112030377,"União das freguesias de Nogueira, Fraião e Lamaçães",Braga,030377
+112030378,União das freguesias de Nogueiró e Tenões,Braga,030378
+112030379,"União das freguesias de Real, Dume e Semelhe",Braga,030379
+112030380,União das freguesias de Santa Lucrécia de Algeriz e Navarra,Braga,030380
+112030381,União das freguesias de Vilaça e Fradelos,Braga,030381
+119030801,Aldão,Guimarães,030801
+119030804,Azurém,Guimarães,030804
+119030806,Barco,Guimarães,030806
+119030807,Brito,Guimarães,030807
+119030808,Caldelas,Guimarães,030808
+119030857,Candoso (São Martinho),Guimarães,030857
+119030812,Costa,Guimarães,030812
+119030813,Creixomil,Guimarães,030813
+119030815,Fermentões,Guimarães,030815
+119030820,Gonça,Guimarães,030820
+119030821,Gondar,Guimarães,030821
+119030823,Guardizela,Guimarães,030823
+119030824,Infantas,Guimarães,030824
+119030827,Longos,Guimarães,030827
+119030828,Lordelo,Guimarães,030828
+119030830,Mesão Frio,Guimarães,030830
+119030831,Moreira de Cónegos,Guimarães,030831
+119030832,Nespereira,Guimarães,030832
+119030835,Pencelo,Guimarães,030835
+119030836,Pinheiro,Guimarães,030836
+119030837,Polvoreira,Guimarães,030837
+119030838,Ponte,Guimarães,030838
+119030842,Prazins (Santa Eufémia),Guimarães,030842
+119030840,Ronfe,Guimarães,030840
+119030858,Sande (São Martinho),Guimarães,030858
+119030865,São Torcato,Guimarães,030865
+119030850,Selho (São Cristóvão),Guimarães,030850
+119030854,Selho (São Jorge),Guimarães,030854
+119030866,Serzedelo,Guimarães,030866
+119030868,Silvares,Guimarães,030868
+119030875,União das freguesias de Abação e Gémeos,Guimarães,030875
+119030877,União das freguesias de Arosa e Castelões,Guimarães,030877
+119030878,União das freguesias de Atães e Rendufe,Guimarães,030878
+119030879,União das freguesias de Briteiros Santo Estêvão e Donim,Guimarães,030879
+119030880,União das freguesias de Briteiros São Salvador e Briteiros Santa Leocádia,Guimarães,030880
+119030881,União das freguesias de Candoso São Tiago e Mascotelos,Guimarães,030881
+119030882,União das freguesias de Conde e Gandarela,Guimarães,030895;030897
+119030883,"União das freguesias de Leitões, Oleiros e Figueiredo",Guimarães,030883
+119030884,"União das freguesias de Oliveira, São Paio e São Sebastião",Guimarães,030884
+119030885,União das freguesias de Prazins Santo Tirso e Corvite,Guimarães,030898;030896
+119030886,União das freguesias de Sande São Lourenço e Balazar,Guimarães,030886
+119030888,União das freguesias de Selho São Lourenço e Gominhães,Guimarães,030888
+119030889,União das freguesias de Serzedo e Calvos,Guimarães,0308FC;030894
+119030890,"União das freguesias de Souto Santa Maria, Souto São Salvador e Gondomar",Guimarães,030890
+119030891,União das freguesias de Tabuadelo e São Faustino,Guimarães,0308FD;0308FB
+119030871,Urgezes,Guimarães,030871
+119031204,Bairro,Vila Nova de Famalicão,031204
+119031206,Brufe,Vila Nova de Famalicão,031206
+119031210,Castelões,Vila Nova de Famalicão,031210
+119031212,Cruz,Vila Nova de Famalicão,031212
+119031213,Delães,Vila Nova de Famalicão,031213
+119031215,Fradelos,Vila Nova de Famalicão,031215
+119031216,Gavião,Vila Nova de Famalicão,031216
+119031219,Joane,Vila Nova de Famalicão,031219
+119031221,Landim,Vila Nova de Famalicão,031221
+119031223,Louro,Vila Nova de Famalicão,031223
+119031224,Lousado,Vila Nova de Famalicão,031224
+119031225,Mogege,Vila Nova de Famalicão,031225
+119031227,Nine,Vila Nova de Famalicão,031227
+119031239,Oliveira (Santa Maria),Vila Nova de Famalicão,031239
+119031242,Oliveira (São Mateus),Vila Nova de Famalicão,031242
+119031230,Pedome,Vila Nova de Famalicão,031230
+119031232,Pousada de Saramagos,Vila Nova de Famalicão,031232
+119031233,Requião,Vila Nova de Famalicão,031233
+119031234,Riba de Ave,Vila Nova de Famalicão,031234
+119031235,Ribeirão,Vila Nova de Famalicão,031235
+119031250,União das freguesias de Antas e Abade de Vermoim,Vila Nova de Famalicão,031250
+119031251,União das freguesias de Arnoso (Santa Maria e Santa Eulália) e Sezures,Vila Nova de Famalicão,031251
+119031252,União das freguesias de Avidos e Lagoa,Vila Nova de Famalicão,031261;031266
+119031253,União das freguesias de Carreira e Bente,Vila Nova de Famalicão,031253
+119031254,União das freguesias de Esmeriz e Cabeçudos,Vila Nova de Famalicão,031264;031262
+119031255,"União das freguesias de Gondifelos, Cavalões e Outiz",Vila Nova de Famalicão,031265;031263;031268
+119031256,"União das freguesias de Lemenhe, Mouquim e Jesufrei",Vila Nova de Famalicão,031256
+119031257,União das freguesias de Ruivães e Novais,Vila Nova de Famalicão,031269;031267
+119031259,"União das freguesias de Vale (São Cosme), Telhado e Portela",Vila Nova de Famalicão,031259
+119031260,União das freguesias de Vila Nova de Famalicão e Calendário,Vila Nova de Famalicão,031260
+119031241,Vale (São Martinho),Vila Nova de Famalicão,031241
+119031247,Vermoim,Vila Nova de Famalicão,031247
+119031249,Vilarinho das Cambas,Vila Nova de Famalicão,031249
+11A010402,Alvarenga,Arouca,010402
+11A010407,Chave,Arouca,010407
+11A010409,Escariz,Arouca,010409
+11A010411,Fermedo,Arouca,010411
+11A010413,Mansores,Arouca,010413
+11A010414,Moldes,Arouca,010414
+11A010415,Rossas,Arouca,010415
+11A010416,Santa Eulália,Arouca,010416
+11A010417,São Miguel do Mato,Arouca,010417
+11A010418,Tropeço,Arouca,010418
+11A010421,União das freguesias de Arouca e Burgo,Arouca,010421
+11A010422,União das freguesias de Cabreiros e Albergaria da Serra,Arouca,010422
+11A010423,União das freguesias de Canelas e Espiunca,Arouca,010423
+11A010424,União das freguesias de Covelo de Paivó e Janarde,Arouca,010424
+11A010419,Urrô,Arouca,010419
+11A010420,Várzea,Arouca,010420
+11A010702,Espinho,Espinho,010702
+11A010704,Paramos,Espinho,010704
+11A010705,Silvalde,Espinho,010705
+11A010706,União das freguesias de Anta e Guetim,Espinho,010707;010708
+11A130412,Baguim do Monte (Rio Tinto),Gondomar,130412
+11A130405,Lomba,Gondomar,130405
+11A130408,Rio Tinto,Gondomar,130408
+11A130413,União das freguesias de Fânzeres e São Pedro da Cova,Gondomar,130413
+11A130414,União das freguesias de Foz do Sousa e Covelo,Gondomar,130414
+11A130415,"União das freguesias de Gondomar (São Cosme), Valbom e Jovim",Gondomar,130415
+11A130416,União das freguesias de Melres e Medas,Gondomar,130416
+11A130601,Águas Santas,Maia,130601
+11A130618,Castêlo da Maia,Maia,130618
+11A130619,Cidade da Maia,Maia,130619
+11A130603,Folgosa,Maia,130603
+11A130608,Milheirós,Maia,130608
+11A130609,Moreira,Maia,130609
+11A130620,Nogueira e Silva Escura,Maia,130620
+11A130617,Pedrouços,Maia,130617
+11A130613,São Pedro Fins,Maia,130613
+11A130616,Vila Nova da Telha,Maia,130616
+11A130811,"União das freguesias de Custóias, Leça do Balio e Guifões",Matosinhos,130815;130819;130816
+11A130812,União das freguesias de Matosinhos e Leça da Palmeira,Matosinhos,130820;130818
+11A130813,"União das freguesias de Perafita, Lavra e Santa Cruz do Bispo",Matosinhos,130821;130817;130822
+11A130814,União das freguesias de São Mamede de Infesta e Senhora da Hora,Matosinhos,130823;130824
+11A011301,Carregosa,Oliveira de Azeméis,011301
+11A011302,Cesar,Oliveira de Azeméis,011302
+11A011303,Fajões,Oliveira de Azeméis,011303
+11A011304,Loureiro,Oliveira de Azeméis,011304
+11A011305,Macieira de Sarnes,Oliveira de Azeméis,011305
+11A011310,Ossela,Oliveira de Azeméis,011310
+11A011315,São Martinho da Gândara,Oliveira de Azeméis,011315
+11A011318,São Roque,Oliveira de Azeméis,011318
+11A011320,União das freguesias de Nogueira do Cravo e Pindelo,Oliveira de Azeméis,011323;011324
+11A011321,"União das freguesias de Oliveira de Azeméis, Santiago de Riba-Ul, Ul, Macinhata da Seixa e Madail",Oliveira de Azeméis,011321
+11A011322,"União das freguesias de Pinheiro da Bemposta, Travanca e Palmaz",Oliveira de Azeméis,011322
+11A011319,Vila de Cucujães,Oliveira de Azeméis,011319
+11A131001,Aguiar de Sousa,Paredes,131001
+11A131002,Astromil,Paredes,131002
+11A131003,Baltar,Paredes,131003
+11A131004,Beire,Paredes,131004
+11A131008,Cete,Paredes,131008
+11A131009,Cristelo,Paredes,131009
+11A131010,Duas Igrejas,Paredes,131010
+11A131011,Gandra,Paredes,131011
+11A131013,Lordelo,Paredes,131013
+11A131014,Louredo,Paredes,131014
+11A131017,Parada de Todeia,Paredes,131017
+11A131025,Paredes,Paredes,131025
+11A131018,Rebordosa,Paredes,131018
+11A131019,Recarei,Paredes,131019
+11A131020,Sobreira,Paredes,131020
+11A131021,Sobrosa,Paredes,131021
+11A131022,Vandoma,Paredes,131022
+11A131024,Vilela,Paredes,131024
+11A131202,Bonfim,Porto,131202
+11A131203,Campanhã,Porto,131203
+11A131210,Paranhos,Porto,131210
+11A131211,Ramalde,Porto,131211
+11A131216,"União das freguesias de Aldoar, Foz do Douro e Nevogilde",Porto,131216
+11A131217,"União das freguesias de Cedofeita, Santo Ildefonso, Sé, Miragaia, São Nicolau e Vitória",Porto,131217
+11A131218,União das freguesias de Lordelo do Ouro e Massarelos,Porto,131218
+11A131305,Balazar,Póvoa de Varzim,131305
+11A131307,Estela,Póvoa de Varzim,131307
+11A131308,Laundos,Póvoa de Varzim,131308
+11A131311,Rates,Póvoa de Varzim,131311
+11A131315,"União das freguesias da Póvoa de Varzim, Beiriz e Argivai",Póvoa de Varzim,131322;131320;131318
+11A131314,União das freguesias de Aguçadoura e Navais,Póvoa de Varzim,131316;131321
+11A131313,"União das freguesias de Aver-o-Mar, Amorim e Terroso",Póvoa de Varzim,131319;131317;131323
+11A010901,Argoncilhe,Santa Maria da Feira,010901
+11A010902,Arrifana,Santa Maria da Feira,010902
+11A010904,Escapães,Santa Maria da Feira,010904
+11A010907,Fiães,Santa Maria da Feira,010907
+11A010908,Fornos,Santa Maria da Feira,010908
+11A010913,Lourosa,Santa Maria da Feira,010913
+11A010914,Milheirós de Poiares,Santa Maria da Feira,010914
+11A010916,Mozelos,Santa Maria da Feira,010916
+11A010917,Nogueira da Regedoura,Santa Maria da Feira,010917
+11A010919,Paços de Brandão,Santa Maria da Feira,010919
+11A010921,Rio Meão,Santa Maria da Feira,010921
+11A010922,Romariz,Santa Maria da Feira,010922
+11A010924,Sanguedo,Santa Maria da Feira,010924
+11A010925,Santa Maria de Lamas,Santa Maria da Feira,010925
+11A010926,São João de Ver,Santa Maria da Feira,010926
+11A010918,São Paio de Oleiros,Santa Maria da Feira,010918
+11A010932,União das freguesias de Caldas de São Jorge e Pigeiros,Santa Maria da Feira,010937;010944
+11A010933,"União das freguesias de Canedo, Vale e Vila Maior",Santa Maria da Feira,010938;010946;010947
+11A010934,"União das freguesias de Lobão, Gião, Louredo e Guisande",Santa Maria da Feira,010941;010939;010942;010940
+11A010935,"União das freguesias de Santa Maria da Feira, Travanca, Sanfins e Espargo",Santa Maria da Feira,010935
+11A131401,Agrela,Santo Tirso,131401
+11A131402,Água Longa,Santo Tirso,131402
+11A131405,Aves,Santo Tirso,131405
+11A131413,Monte Córdova,Santo Tirso,131413
+11A131430,Negrelos (São Tomé),Santo Tirso,131430
+11A131416,Rebordões,Santo Tirso,131416
+11A131418,Reguenga,Santo Tirso,131418
+11A131419,Roriz,Santo Tirso,131419
+11A131433,"União das freguesias de Areias, Sequeiró, Lama e Palmeira",Santo Tirso,131433
+11A131435,União das freguesias de Carreira e Refojos de Riba de Ave,Santo Tirso,131435
+11A131436,União das freguesias de Lamelas e Guimarei,Santo Tirso,131436
+11A131437,"União das freguesias de Santo Tirso, Couto (Santa Cristina e São Miguel) e Burgães",Santo Tirso,131437
+11A131434,Vila Nova do Campo,Santo Tirso,131434
+11A131432,Vilarinho,Santo Tirso,131432
+11A011601,São João da Madeira,São João da Madeira,011601
+11A131806,Covelas,Trofa,131806
+11A131809,União das freguesias de Alvarelhos e Guidões,Trofa,131812;131813
+11A131810,União das freguesias de Bougado (São Martinho e Santiago),Trofa,131810
+11A131811,União das freguesias de Coronado (São Romão e São Mamede),Trofa,131811
+11A011901,Arões,Vale de Cambra,011901
+11A011903,Cepelos,Vale de Cambra,011903
+11A011905,Junqueira,Vale de Cambra,011905
+11A011906,Macieira de Cambra,Vale de Cambra,011906
+11A011907,Roge,Vale de Cambra,011907
+11A011902,São Pedro de Castelões,Vale de Cambra,011902
+11A011910,"União das freguesias de Vila Chã, Codal e Vila Cova de Perrinho",Vale de Cambra,011910
+11A131501,Alfena,Valongo,131501
+11A131503,Ermesinde,Valongo,131503
+11A131506,União das freguesias de Campo e Sobrado,Valongo,131507;131508
+11A131505,Valongo,Valongo,131505
+11A131602,Árvore,Vila do Conde,131602
+11A131603,Aveleda,Vila do Conde,131603
+11A131604,Azurara,Vila do Conde,131604
+11A131607,Fajozes,Vila do Conde,131607
+11A131610,Gião,Vila do Conde,131610
+11A131611,Guilhabreu,Vila do Conde,131611
+11A131612,Junqueira,Vila do Conde,131612
+11A131613,Labruge,Vila do Conde,131613
+11A131614,Macieira da Maia,Vila do Conde,131614
+11A131616,Mindelo,Vila do Conde,131616
+11A131617,Modivas,Vila do Conde,131617
+11A131631,"União das freguesias de Bagunte, Ferreiró, Outeiro Maior e Parada",Vila do Conde,131631
+11A131632,União das freguesias de Fornelo e Vairão,Vila do Conde,131640;131645
+11A131633,União das freguesias de Malta e Canidelo,Vila do Conde,131641;131639
+11A131634,União das freguesias de Retorta e Tougues,Vila do Conde,131642;131644
+11A131635,União das freguesias de Rio Mau e Arcos,Vila do Conde,131643;131638
+11A131636,União das freguesias de Touguinha e Touguinhó,Vila do Conde,131636
+11A131637,União das freguesias de Vilar e Mosteiró,Vila do Conde,131637
+11A131627,Vila Chã,Vila do Conde,131627
+11A131628,Vila do Conde,Vila do Conde,131628
+11A131630,Vilar de Pinheiro,Vila do Conde,131630
+11A131701,Arcozelo,Vila Nova de Gaia,131701
+11A131702,Avintes,Vila Nova de Gaia,131702
+11A131703,Canelas,Vila Nova de Gaia,131703
+11A131704,Canidelo,Vila Nova de Gaia,131704
+11A131709,Madalena,Vila Nova de Gaia,131709
+11A131712,Oliveira do Douro,Vila Nova de Gaia,131712
+11A131717,São Félix da Marinha,Vila Nova de Gaia,131717
+11A131725,União das freguesias de Grijó e Sermonde,Vila Nova de Gaia,131733;131744
+11A131726,União das freguesias de Gulpilhares e Valadares,Vila Nova de Gaia,131734;131746
+11A131727,União das freguesias de Mafamude e Vilar do Paraíso,Vila Nova de Gaia,131736;131747
+11A131728,União das freguesias de Pedroso e Seixezelo,Vila Nova de Gaia,131738;131743
+11A131729,"União das freguesias de Sandim, Olival, Lever e Crestuma",Vila Nova de Gaia,131740;131737;131735;131732
+11A131730,União das freguesias de Santa Marinha e São Pedro da Afurada,Vila Nova de Gaia,131741;131742
+11A131731,União das freguesias de Serzedo e Perosinho,Vila Nova de Gaia,131745;131739
+11A131723,Vilar de Andorinho,Vila Nova de Gaia,131723
+192060301,Almalaguês,Coimbra,060301
+192060309,Brasfemes,Coimbra,060309
+192060311,Ceira,Coimbra,060311
+192060312,Cernache,Coimbra,060312
+192060318,Santo António dos Olivais,Coimbra,060318
+192060320,São João do Campo,Coimbra,060320
+192060324,São Silvestre,Coimbra,060324
+192060329,Torres do Mondego,Coimbra,060329
+192060332,União das freguesias de Antuzede e Vil de Matos,Coimbra,060332
+192060333,União das freguesias de Assafarge e Antanhol,Coimbra,060333
+192060334,"União das freguesias de Coimbra (Sé Nova, Santa Cruz, Almedina e São Bartolomeu)",Coimbra,060334
+192060335,União das freguesias de Eiras e São Paulo de Frades,Coimbra,060335
+192060336,União das freguesias de Santa Clara e Castelo Viegas,Coimbra,060336
+192060337,União das freguesias de São Martinho de Árvore e Lamarosa,Coimbra,060337
+192060338,União das freguesias de São Martinho do Bispo e Ribeira de Frades,Coimbra,060338
+192060339,União das freguesias de Souselas e Botão,Coimbra,060339
+192060340,"União das freguesias de Taveiro, Ameal e Arzila",Coimbra,060340
+192060341,União das freguesias de Trouxemil e Torre de Vilela,Coimbra,060341
+193100901,Amor,Leiria,100901
+193100902,Arrabal,Leiria,100902
+193100925,Bajouca,Leiria,100925
+193100926,Bidoeira de Cima,Leiria,100926
+193100907,Caranguejeira,Leiria,100907
+193100909,Coimbrão,Leiria,100909
+193100913,Maceira,Leiria,100913
+193100915,Milagres,Leiria,100915
+193100921,Regueira de Pontes,Leiria,100921
+193100932,União das freguesias de Colmeias e Memória,Leiria,100932
+193100933,"União das freguesias de Leiria, Pousos, Barreira e Cortes",Leiria,100933
+193100934,União das freguesias de Marrazes e Barosa,Leiria,100934
+193100935,União das freguesias de Monte Real e Carvide,Leiria,100935
+193100936,União das freguesias de Monte Redondo e Carreira,Leiria,100942;100941
+193100937,União das freguesias de Parceiros e Azoia,Leiria,100937
+193100938,União das freguesias de Santa Catarina da Serra e Chainça,Leiria,100938
+193100939,União das freguesias de Santa Eufémia e Boa Vista,Leiria,100939
+193100940,União das freguesias de Souto da Carpalhosa e Ortigosa,Leiria,100944;100943
+1A0111513,Águas Livres,Amadora,111513
+1A0111512,Alfragide,Amadora,111512
+1A0111514,Encosta do Sol,Amadora,111514
+1A0111515,Falagueira-Venda Nova,Amadora,111515
+1A0111516,Mina de Água,Amadora,111516
+1A0111517,Venteira,Amadora,111517
+1A0110501,Alcabideche,Cascais,110501
+1A0110506,São Domingos de Rana,Cascais,110506
+1A0110507,União das freguesias de Carcavelos e Parede,Cascais,110507
+1A0110508,União das freguesias de Cascais e Estoril,Cascais,110508
+1A0110601,Ajuda,Lisboa,110601
+1A0110602,Alcântara,Lisboa,110602
+1A0110654,Alvalade,Lisboa,110654
+1A0110655,Areeiro,Lisboa,110655
+1A0110656,Arroios,Lisboa,110656
+1A0110657,Avenidas Novas,Lisboa,110657
+1A0110607,Beato,Lisboa,110607
+1A0110658,Belém,Lisboa,110658
+1A0110608,Benfica,Lisboa,110608
+1A0110659,Campo de Ourique,Lisboa,110659
+1A0110610,Campolide,Lisboa,110610
+1A0110611,Carnide,Lisboa,110611
+1A0110660,Estrela,Lisboa,110660
+1A0110618,Lumiar,Lisboa,110618
+1A0110621,Marvila,Lisboa,110621
+1A0110661,Misericórdia,Lisboa,110661
+1A0110633,Olivais,Lisboa,110633
+1A0110662,Parque das Nações,Lisboa,110662
+1A0110663,Penha de França,Lisboa,110663
+1A0110664,Santa Clara,Lisboa,110664
+1A0110665,Santa Maria Maior,Lisboa,110665
+1A0110666,Santo António,Lisboa,110666
+1A0110639,São Domingos de Benfica,Lisboa,110639
+1A0110667,São Vicente,Lisboa,110667
+1A0110702,Bucelas,Loures,110702
+1A0110705,Fanhões,Loures,110705
+1A0110707,Loures,Loures,110707
+1A0110708,Lousa,Loures,110708
+1A0110731,"União das freguesias de Camarate, Unhos e Apelação",Loures,110731
+1A0110726,União das freguesias de Moscavide e Portela,Loures,110726
+1A0110727,União das freguesias de Sacavém e Prior Velho,Loures,110727
+1A0110728,"União das freguesias de Santa Iria de Azoia, São João da Talha e Bobadela",Loures,110728
+1A0110729,União das freguesias de Santo Antão e São Julião do Tojal,Loures,110729
+1A0110730,União das freguesias de Santo António dos Cavaleiros e Frielas,Loures,110730
+1A0110902,Carvoeira,Mafra,110902
+1A0110904,Encarnação,Mafra,110904
+1A0110906,Ericeira,Mafra,110906
+1A0110909,Mafra,Mafra,110909
+1A0110911,Milharado,Mafra,110911
+1A0110913,Santo Isidoro,Mafra,110913
+1A0110918,União das freguesias de Azueira e Sobral da Abelheira,Mafra,110918
+1A0110919,"União das freguesias de Enxara do Bispo, Gradil e Vila Franca do Rosário",Mafra,110919
+1A0110920,União das freguesias de Igreja Nova e Cheleiros,Mafra,110920
+1A0110921,União das freguesias de Malveira e São Miguel de Alcainça,Mafra,110921
+1A0110922,União das freguesias de Venda do Pinheiro e Santo Estêvão das Galés,Mafra,110922
+1A0111603,Odivelas,Odivelas,111603
+1A0111608,União das freguesias de Pontinha e Famões,Odivelas,111608
+1A0111609,União das freguesias de Póvoa de Santo Adrião e Olival Basto,Odivelas,111609
+1A0111610,União das freguesias de Ramada e Caneças,Odivelas,111610
+1A0111002,Barcarena,Oeiras,111002
+1A0111009,Porto Salvo,Oeiras,111009
+1A0111012,"União das freguesias de Algés, Linda-a-Velha e Cruz Quebrada-Dafundo",Oeiras,111012
+1A0111013,União das freguesias de Carnaxide e Queijas,Oeiras,111013
+1A0111014,"União das freguesias de Oeiras e São Julião da Barra, Paço de Arcos e Caxias",Oeiras,111014
+1A0111102,Algueirão-Mem Martins,Sintra,111102
+1A0111115,Casal de Cambra,Sintra,111115
+1A0111105,Colares,Sintra,111105
+1A0111108,Rio de Mouro,Sintra,111108
+1A0111122,União das freguesias de Agualva e Mira-Sintra,Sintra,111122
+1A0111123,"União das freguesias de Almargem do Bispo, Pêro Pinheiro e Montelavar",Sintra,111129;111132;111131
+1A0111125,União das freguesias de Massamá e Monte Abraão,Sintra,111125
+1A0111126,União das freguesias de Queluz e Belas,Sintra,111133;111130
+1A0111127,União das freguesias de São João das Lampas e Terrugem,Sintra,111134;111135
+1A0111128,"União das freguesias de Sintra (Santa Maria e São Miguel, São Martinho e São Pedro de Penaferrim)",Sintra,111128
+1A0111124,União das freguesias do Cacém e São Marcos,Sintra,111124
+1A0111412,"União das freguesias de Alhandra, São João dos Montes e Calhandriz",Vila Franca de Xira,111412
+1A0111413,União das freguesias de Alverca do Ribatejo e Sobralinho,Vila Franca de Xira,111413
+1A0111414,União das freguesias de Castanheira do Ribatejo e Cachoeiras,Vila Franca de Xira,111414
+1A0111415,União das freguesias de Póvoa de Santa Iria e Forte da Casa,Vila Franca de Xira,111415
+1A0111408,Vialonga,Vila Franca de Xira,111408
+1A0111409,Vila Franca de Xira,Vila Franca de Xira,111409
+1B0150201,Alcochete,Alcochete,150201
+1B0150202,Samouco,Alcochete,150202
+1B0150203,São Francisco,Alcochete,150203
+1B0150303,Costa da Caparica,Almada,150303
+1B0150312,"União das freguesias de Almada, Cova da Piedade, Pragal e Cacilhas",Almada,150312
+1B0150313,União das freguesias de Caparica e Trafaria,Almada,150313
+1B0150314,União das freguesias de Charneca de Caparica e Sobreda,Almada,150314
+1B0150315,União das freguesias de Laranjeiro e Feijó,Almada,150315
+1B0150407,Santo António da Charneca,Barreiro,150407
+1B0150409,"União das freguesias de Alto do Seixalinho, Santo André e Verderena",Barreiro,150409
+1B0150410,União das freguesias de Barreiro e Lavradio,Barreiro,150410
+1B0150411,União das freguesias de Palhais e Coina,Barreiro,150411
+1B0150601,Alhos Vedros,Moita,150601
+1B0150603,Moita,Moita,150603
+1B0150607,União das freguesias de Baixa da Banheira e Vale da Amoreira,Moita,150607
+1B0150608,União das freguesias de Gaio-Rosário e Sarilhos Pequenos,Moita,150608
+1B0150701,Canha,Montijo,150701
+1B0150704,Sarilhos Grandes,Montijo,150704
+1B0150709,União das freguesias de Atalaia e Alto Estanqueiro-Jardia,Montijo,150709
+1B0150710,União das freguesias de Montijo e Afonsoeiro,Montijo,150710
+1B0150711,União das freguesias de Pegões,Montijo,150711
+1B0150802,Palmela,Palmela,150802
+1B0150803,Pinhal Novo,Palmela,150803
+1B0150804,Quinta do Anjo,Palmela,150804
+1B0150806,União das freguesias de Poceirão e Marateca,Palmela,150806
+1B0151002,Amora,Seixal,151002
+1B0151005,Corroios,Seixal,151005
+1B0151006,Fernão Ferro,Seixal,151006
+1B0151103,Quinta do Conde,Sesimbra,151103
+1B0151101,Sesimbra (Castelo),Sesimbra,151101
+1B0151102,Sesimbra (Santiago),Sesimbra,151102
+1B0151207,Gâmbia-Pontes-Alto da Guerra,Setúbal,151207
+1B0151208,Sado,Setúbal,151208
+1B0151205,Setúbal (São Sebastião),Setúbal,151205
+1B0151209,União das freguesias de Azeitão (São Lourenço e São Simão),Setúbal,151209
+1B0151210,"União das freguesias de Setúbal (São Julião, Nossa Senhora da Anunciada e Santa Maria da Graça)",Setúbal,151210
+150080106,Albufeira e Olhos de Água,Albufeira,080106
+150080104,Ferreiras,Albufeira,080104
+150080102,Guia,Albufeira,080102
+150080103,Paderne,Albufeira,080103
+150080202,Giões,Alcoutim,080202
+150080203,Martim Longo,Alcoutim,080203
+150080206,União das freguesias de Alcoutim e Pereiro,Alcoutim,080206
+150080205,Vaqueiros,Alcoutim,080205
+150080301,Aljezur,Aljezur,080301
+150080302,Bordeira,Aljezur,080302
+150080303,Odeceixe,Aljezur,080303
+150080304,Rogil,Aljezur,080304
+150080404,Altura,Castro Marim,080404
+150080401,Azinhal,Castro Marim,080401
+150080402,Castro Marim,Castro Marim,080402
+150080403,Odeleite,Castro Marim,080403
+150080506,Montenegro,Faro,080506
+150080503,Santa Bárbara de Nexe,Faro,080503
+150080507,União das freguesias de Conceição e Estoi,Faro,080509;080510
+150080508,União das freguesias de Faro (Sé e São Pedro),Faro,080508
+150080602,Ferragudo,Lagoa,080602
+150080604,Porches,Lagoa,080604
+150080607,União das freguesias de Estômbar e Parchal,Lagoa,080607
+150080608,União das freguesias de Lagoa e Carvoeiro,Lagoa,080608
+150080703,Luz,Lagos,080703
+150080704,Odiáxere,Lagos,080704
+150080708,São Gonçalo de Lagos,Lagos,080708
+150080707,União das freguesias de Bensafrim e Barão de São João,Lagos,080710;080709
+150080801,Almancil,Loulé,080801
+150080802,Alte,Loulé,080802
+150080803,Ameixial,Loulé,080803
+150080804,Boliqueime,Loulé,080804
+150080808,Loulé (São Clemente),Loulé,080808
+150080809,Loulé (São Sebastião),Loulé,080809
+150080805,Quarteira,Loulé,080805
+150080807,Salir,Loulé,080807
+150080901,Alferce,Monchique,080901
+150080902,Marmelete,Monchique,080902
+150080903,Monchique,Monchique,080903
+150081003,Olhão,Olhão,081003
+150081004,Pechão,Olhão,081004
+150081005,Quelfes,Olhão,081005
+150081006,União das freguesias de Moncarapacho e Fuseta,Olhão,081008;081007
+150081101,Alvor,Portimão,081101
+150081102,Mexilhoeira Grande,Portimão,081102
+150081103,Portimão,Portimão,081103
+150081201,São Brás de Alportel,São Brás de Alportel,081201
+150081303,Armação de Pêra,Silves,081303
+150081305,São Bartolomeu de Messines,Silves,081305
+150081306,São Marcos da Serra,Silves,081306
+150081307,Silves,Silves,081307
+150081309,União das freguesias de Alcantarilha e Pêra,Silves,081311;081313
+150081310,União das freguesias de Algoz e Tunes,Silves,081312;081314
+150081401,Cachopo,Tavira,081401
+150081404,Santa Catarina da Fonte do Bispo,Tavira,081404
+150081408,Santa Luzia,Tavira,081408
+150081410,União das freguesias de Conceição e Cabanas de Tavira,Tavira,081414;081413
+150081411,União das freguesias de Luz de Tavira e Santo Estêvão,Tavira,081415;081416
+150081412,União das freguesias de Tavira (Santa Maria e Santiago),Tavira,081412
+150081501,Barão de São Miguel,Vila do Bispo,081501
+150081502,Budens,Vila do Bispo,081502
+150081504,Sagres,Vila do Bispo,081504
+150081506,Vila do Bispo e Raposeira,Vila do Bispo,081506
+150081603,Monte Gordo,Vila Real de Santo António,081603
+150081601,Vila Nova de Cacela,Vila Real de Santo António,081601
+150081602,Vila Real de Santo António,Vila Real de Santo António,081602
