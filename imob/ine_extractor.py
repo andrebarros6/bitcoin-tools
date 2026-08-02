@@ -1,12 +1,18 @@
 """
-Extracts INE median sale price per m2 for family housing (varcd 0012234)
-across all available geography levels (Portugal -> NUTS -> municipio -> freguesia)
-and all quarters (Q4 2019 -> latest).
+Extracts an INE housing-price indicator across all available geography levels
+and time periods via the free JSON API.
 
-Source: INE, Estatisticas de precos da habitacao ao nivel local (Metodologia 2022)
-API docs: https://www.ine.pt/ine/json_indicador/
+Default (no args): varcd 0012234, median sale price EUR/m2 (Metodologia 2022),
+Portugal -> NUTS -> municipio -> freguesia, Q4 2019 -> latest.
+
+Usage: python ine_extractor.py [varcd] [dim3_code] [output_filename]
+Example (bank appraisal series, municipio-level, 2011-present):
+  python ine_extractor.py 0012248 T ine_avaliacao_bancaria_full.csv
+
+Source: INE, json_indicador API (https://www.ine.pt/ine/json_indicador/)
 """
 import json
+import sys
 import time
 import urllib.request
 import urllib.parse
@@ -14,7 +20,9 @@ import csv
 import os
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
-VARCD = "0012234"
+VARCD = sys.argv[1] if len(sys.argv) > 1 else "0012234"
+DIM3 = sys.argv[2] if len(sys.argv) > 2 else "H1"
+OUT_FILENAME = sys.argv[3] if len(sys.argv) > 3 else "ine_precos_m2_full.csv"
 BASE_META = "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp"
 BASE_DATA = "https://www.ine.pt/ine/json_indicador/pindica.jsp"
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -52,7 +60,15 @@ def extract_dims(meta):
     return time_codes, geo_codes
 
 
-def fetch_data_batch(time_codes, geo_code, dim3="H1"):
+TIME_CHUNK_SIZE = 40  # keep Dim1 query strings short enough to avoid server-side timeouts
+
+
+def chunk(seq, size):
+    for i in range(0, len(seq), size):
+        yield seq[i:i + size]
+
+
+def fetch_data_batch(time_codes, geo_code, dim3=DIM3):
     dim1 = ",".join(c for c, _ in time_codes)
     params = {"op": "2", "varcd": VARCD, "Dim1": dim1, "Dim2": geo_code, "Dim3": dim3, "lang": "PT"}
     url = f"{BASE_DATA}?{urllib.parse.urlencode(params)}"
@@ -63,9 +79,10 @@ def fetch_data_batch(time_codes, geo_code, dim3="H1"):
 
 
 def worker(args):
-    time_codes, geo_cod, geo_dsg, nivel = args
+    """Fetches one (geo_code, time_chunk) pair -- the unit of parallelism."""
+    time_chunk, geo_cod, geo_dsg, nivel = args
     try:
-        dados, err = fetch_data_batch(time_codes, geo_cod)
+        dados, err = fetch_data_batch(time_chunk, geo_cod)
     except Exception as e:
         return geo_cod, geo_dsg, nivel, None, str(e)
     if err:
@@ -86,14 +103,20 @@ def main():
     for nivel, items in sorted(by_nivel.items()):
         print(f"  Geo nivel {nivel}: {len(items)} locations", flush=True)
 
-    out_path = os.path.join(OUT_DIR, "ine_precos_m2_full.csv")
+    out_path = os.path.join(OUT_DIR, OUT_FILENAME)
     fieldnames = ["geo_cod", "geo_dsg", "geo_nivel", "periodo", "valor_eur_m2"]
-    total = len(geo_codes)
     row_count = 0
-    skipped = 0
+    skipped_chunks = 0
     done = 0
 
-    tasks = [(time_codes, cod, dsg, nivel) for cod, dsg, nivel in geo_codes]
+    time_chunks = list(chunk(time_codes, TIME_CHUNK_SIZE))
+    tasks = [
+        (tc, cod, dsg, nivel)
+        for cod, dsg, nivel in geo_codes
+        for tc in time_chunks
+    ]
+    total = len(tasks)
+    print(f"Total requests: {total} ({len(geo_codes)} geo codes x {len(time_chunks)} time chunks)", flush=True)
 
     with open(out_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -104,11 +127,11 @@ def main():
             for fut in as_completed(futures):
                 geo_cod, geo_dsg, nivel, dados, err = fut.result()
                 done += 1
-                if done % 50 == 0:
+                if done % 200 == 0:
                     print(f"  [{done}/{total}] ...", flush=True)
                 if err:
                     print(f"    SKIP {geo_dsg} ({geo_cod}): {err}", flush=True)
-                    skipped += 1
+                    skipped_chunks += 1
                     continue
                 for period_label, entries in dados.items():
                     for e in entries:
@@ -123,10 +146,11 @@ def main():
                         row_count += 1
                 f.flush()
 
-    print(f"\nWrote {row_count} rows to {out_path} ({skipped} geo codes skipped)", flush=True)
+    print(f"\nWrote {row_count} rows to {out_path} ({skipped_chunks} time-chunks skipped)", flush=True)
 
-    freg_total = sum(1 for _, _, nivel in geo_codes if nivel == "6")
-    print(f"Freguesia geo codes attempted: {freg_total}", flush=True)
+    max_nivel = max(nivel for _, _, nivel in geo_codes)
+    finest_count = sum(1 for _, _, nivel in geo_codes if nivel == max_nivel)
+    print(f"Finest geo level attempted: nivel {max_nivel} ({finest_count} locations)", flush=True)
 
 
 if __name__ == "__main__":
