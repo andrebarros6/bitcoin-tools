@@ -197,6 +197,26 @@ def render_national():
 st.title("🏠 Preço por m² em Portugal — EUR vs BTC")
 st.markdown("---")
 
+st.markdown("""
+<style>
+.stTabs [data-baseweb="tab-list"] {
+    gap: 0;
+    width: 100%;
+}
+.stTabs [data-baseweb="tab-list"] button {
+    flex: 1;
+}
+.stTabs [data-baseweb="tab"] {
+    height: 3.5rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+.stTabs [data-baseweb="tab"] p {
+    font-size: 1.15rem;
+}
+</style>
+""", unsafe_allow_html=True)
+
 tab_national, tab_map = st.tabs(["🇵🇹 Nacional", "🗺️ Por região"])
 
 with tab_national:

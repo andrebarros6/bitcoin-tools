@@ -116,7 +116,12 @@ def render():
 
     region_names = sorted(latest["geo_dsg"].unique())
     default_idx = region_names.index("Lisboa") if "Lisboa" in region_names else 0
-    selected = st.selectbox(f"Selecionar {level_label.lower()}:", region_names, index=default_idx)
+    selected = st.selectbox(
+        f"Selecionar {level_label.lower()}:",
+        region_names,
+        index=default_idx,
+        help="Escreve para pesquisar ou escolhe na lista.",
+    )
 
     region_df = prices[prices["geo_dsg"] == selected].sort_values("date")
 
@@ -158,7 +163,7 @@ def render():
 
     col1, col2 = st.columns(2)
     with col1:
-        st.metric(f"{selected} — EUR/m² (atual)", f"€{latest_row['valor_eur_m2']:,.0f}", f"{eur_change:+.1f}%")
+        st.metric(f"{selected} — EUR/m² (atual)", f"€{latest_row['valor_eur_m2']:,.0f}", f"{eur_change:+.1f}%", delta_color="inverse")
     with col2:
         st.metric(f"{selected} — BTC/m² (atual)", f"{latest_row['valor_btc_m2']:.6f} BTC", f"{btc_change:+.1f}%", delta_color="inverse")
 
