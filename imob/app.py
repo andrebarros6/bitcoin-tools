@@ -88,8 +88,14 @@ def render_national():
     st.sidebar.markdown("---")
     st.sidebar.markdown("### Estatísticas")
     st.sidebar.metric("Período selecionado", f"{len(filtered_df)} meses")
-    st.sidebar.metric("EUR/m² (atual)", f"€{filtered_df['Preco m2 [EUR]'].iloc[-1]:,.0f}")
-    st.sidebar.metric("BTC/m² (atual)", f"{filtered_df['Preco m2 [BTC]'].iloc[-1]:.6f} BTC")
+    st.sidebar.metric(
+        "EUR/m² (média nacional)", f"€{filtered_df['Preco m2 [EUR]'].iloc[-1]:,.0f}",
+        help="Média nacional — não muda ao selecionar uma região na aba \"Por região\".",
+    )
+    st.sidebar.metric(
+        "BTC/m² (média nacional)", f"{filtered_df['Preco m2 [BTC]'].iloc[-1]:.6f} BTC",
+        help="Média nacional — não muda ao selecionar uma região na aba \"Por região\".",
+    )
 
     st.markdown("""
     <div style='background-color:#1a1a1a;padding:1.5rem;border-radius:0.5rem;margin-bottom:1.5rem;border-left:4px solid #f39c12;'>
