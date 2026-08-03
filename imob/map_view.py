@@ -112,15 +112,25 @@ def render():
         plot_bgcolor="rgba(0,0,0,0)",
         geo=dict(bgcolor="rgba(0,0,0,0)"),
     )
-    st.plotly_chart(fig_map, use_container_width=True)
+    map_event = st.plotly_chart(
+        fig_map, use_container_width=True, on_select="rerun", selection_mode="points", key=f"map_{level}"
+    )
 
     region_names = sorted(latest["geo_dsg"].unique())
-    default_idx = region_names.index("Lisboa") if "Lisboa" in region_names else 0
+
+    clicked_points = map_event.selection.points if map_event and map_event.selection else []
+    if clicked_points:
+        st.session_state[f"region_select_{level}"] = clicked_points[0]["properties"]["geo_dsg"]
+
+    state_key = f"region_select_{level}"
+    if state_key not in st.session_state or st.session_state[state_key] not in region_names:
+        st.session_state[state_key] = "Lisboa" if "Lisboa" in region_names else region_names[0]
+
     selected = st.selectbox(
         f"Selecionar {level_label.lower()}:",
         region_names,
-        index=default_idx,
-        help="Escreve para pesquisar ou escolhe na lista.",
+        key=state_key,
+        help="Escreve para pesquisar ou escolhe na lista. Também podes clicar diretamente no mapa.",
     )
 
     region_df = prices[prices["geo_dsg"] == selected].sort_values("date")
