@@ -34,7 +34,7 @@ def load_national_data():
 
 def render_national():
     df = load_national_data()
-    min_date = df["Date"].min().date()
+    min_date = min(df["Date"].min().date(), map_view.earliest_available_date())
     max_date = df["Date"].max().date()
 
     if "start_date" not in st.session_state:
@@ -54,6 +54,7 @@ def render_national():
         st.session_state.start_date, st.session_state.end_date = date_range
 
     use_log_scale = st.sidebar.checkbox("Escala logarítmica para BTC", value=False)
+    st.session_state.use_log_scale = use_log_scale
 
     st.sidebar.markdown("### Atalhos")
     col1, col2 = st.sidebar.columns(2)

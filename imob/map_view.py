@@ -53,6 +53,14 @@ def latest_prices(df):
     return df.loc[idx, ["geo_cod", "geo_dsg", "valor_eur_m2", "date"]]
 
 
+def earliest_available_date():
+    """Earliest date across both geo levels -- used to widen the sidebar's date range
+    so 'Tudo' unlocks each region's full history, not just the national series' start."""
+    municipio = load_price_series("municipio")
+    freguesia = load_price_series("freguesia")
+    return min(municipio["date"].min(), freguesia["date"].min()).date()
+
+
 def render():
     st.markdown("""
     <div style='background-color:#1a1a1a;padding:1.5rem;border-radius:0.5rem;margin-bottom:1.5rem;border-left:4px solid #f7931a;'>
@@ -111,8 +119,16 @@ def render():
     selected = st.selectbox(f"Selecionar {level_label.lower()}:", region_names, index=default_idx)
 
     region_df = prices[prices["geo_dsg"] == selected].sort_values("date")
+
+    start_date = st.session_state.get("start_date")
+    end_date = st.session_state.get("end_date")
+    if start_date and end_date:
+        region_df = region_df[
+            (region_df["date"].dt.date >= start_date) & (region_df["date"].dt.date <= end_date)
+        ]
+
     if region_df.empty:
-        st.warning("Sem dados para esta região.")
+        st.warning("Sem dados para esta região no período selecionado.")
         return
 
     btc = load_btc()
@@ -166,6 +182,7 @@ def render():
     fig.update_yaxes(title_text="<b>Preço por m² (EUR)</b>", secondary_y=False,
                       title_font=dict(color=POSITIVE), gridcolor="rgba(34,197,94,0.15)")
     fig.update_yaxes(title_text="<b>Preço por m² (BTC)</b>", secondary_y=True,
+                      type="log" if st.session_state.get("use_log_scale") else "linear",
                       title_font=dict(color=ACCENT), gridcolor="rgba(247,147,26,0.15)")
     fig.update_layout(
         hovermode="x unified", height=500,
