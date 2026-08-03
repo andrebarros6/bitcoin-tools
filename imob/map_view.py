@@ -177,6 +177,22 @@ def render():
     with col2:
         st.metric(f"{selected} — BTC/m² (atual)", f"{latest_row['valor_btc_m2']:.6f} BTC", f"{btc_change:+.1f}%", delta_color="inverse")
 
+    st.markdown("---")
+    st.subheader("📈 Análise Comparativa")
+
+    eur_abs = latest_row["valor_eur_m2"] - first["valor_eur_m2"]
+    btc_abs = latest_row["valor_btc_m2"] - first["valor_btc_m2"]
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric("Variação EUR/m²",
+                   f"{'+ ' if eur_abs >= 0 else '- '}€{abs(eur_abs):,.0f}",
+                   f"{eur_change:.2f}%", delta_color="inverse")
+    with col2:
+        st.metric("Variação BTC/m²",
+                   f"{'+ ' if btc_abs >= 0 else '- '}{abs(btc_abs):.6f} BTC",
+                   f"{btc_change:.2f}%", delta_color="inverse")
+
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     fig.add_trace(go.Scatter(
         x=region_df["date"], y=region_df["valor_eur_m2"],
