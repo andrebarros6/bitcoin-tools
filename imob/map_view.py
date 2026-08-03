@@ -126,6 +126,17 @@ def render():
     if state_key not in st.session_state or st.session_state[state_key] not in region_names:
         st.session_state[state_key] = "Lisboa" if "Lisboa" in region_names else region_names[0]
 
+    st.markdown("""
+    <style>
+    div[data-testid="stSelectbox"] label[data-testid="stWidgetLabel"] {
+        justify-content: flex-start;
+        gap: 0.25rem;
+    }
+    div[data-testid="stSelectbox"] label[data-testid="stWidgetLabel"] > div {
+        flex: 0 0 auto;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     selected = st.selectbox(
         f"Selecionar {level_label.lower()}:",
         region_names,
