@@ -199,19 +199,18 @@ st.markdown("---")
 
 st.markdown("""
 <style>
-.stTabs [data-baseweb="tab-list"] {
+.stTabs [role="tablist"] {
     gap: 0;
     width: 100%;
 }
-.stTabs [data-baseweb="tab-list"] button {
+.stTabs [role="tab"], .stTabs [data-baseweb="tab"] {
     flex: 1;
-}
-.stTabs [data-baseweb="tab"] {
     height: 3.5rem;
     font-size: 1.15rem;
     font-weight: 600;
+    justify-content: center;
 }
-.stTabs [data-baseweb="tab"] p {
+.stTabs [role="tab"] p, .stTabs [data-baseweb="tab"] p {
     font-size: 1.15rem;
 }
 </style>
