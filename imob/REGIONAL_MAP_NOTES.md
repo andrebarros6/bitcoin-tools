@@ -1,4 +1,4 @@
-# Regional map feature — data, join, blend (done) + next steps
+# Regional map feature — data, join, blend, map UI (done) + next steps
 
 Goal: Portugal map where user selects a region and sees EUR/BTC price evolution for that region (m2-casas-PT.csv equivalent, but regional). User decided (2026-08-02): at least 10 years of history required; blend appraisal data pre-Q4-2019 with transaction sales data post-Q4-2019. Time-scope is now settled: no separate 20-year national-only fallback — 15 years of município-level blended history (for 145/306 municípios) is enough, not worth a third data source/methodology for 5 more years of national-only context.
 
@@ -41,12 +41,20 @@ Confirmed EUR→BTC join (`../data/btc_eur.csv`, monthly) works. Sample Lisboa/P
 - Result: **`freguesias_web.geojson`, 565 shapes** — exact 1:1 match with `caop_ine_join.csv`, verified. **2.3MB**, down from 27MB unsimplified (`caop_geometry_matched.geojson`, kept in the repo so re-simplifying doesn't require re-fetching).
 - Properties per feature: `geo_cod`, `geo_dsg`, `municipio` — joins directly against `ine_precos_m2_full.csv` and `blended_municipio_series.csv` on `geo_cod`.
 
+### 8. Map UI built and verified — DONE
+- New "Por região" tab in `app.py` (alongside the existing "Nacional" tab), implemented in `map_view.py`. Município-level choropleth by default, radio toggle to freguesia-level. Selecting a region drives an EUR/BTC evolution chart in the same visual style as the national tab, including the Q4-2019 methodology-change marker (dotted vline) when a município's data spans both series.
+- Municipio boundary geometry added (`build_municipio_geometry.py` → `municipios_web.geojson`): same CAOP fetch+simplify pattern as freguesias, but simpler — CAOP's 278 mainland municípios match INE names 1:1 directly, no 2013-merger dissolve needed. Raw fetch was 204MB (much heavier per-polygon than freguesias); simplified to 2.5MB.
+- **Two real bugs found and fixed during verification** (headless-browser testing, not just `st.write` sanity checks):
+  1. **`go.Choropleth` needs clockwise ring winding**, the opposite of GeoJSON's RFC7946 standard (counter-clockwise) that mapshaper correctly produces. Mismatched winding didn't error — it silently rendered polygons above a handful of vertices as "fill everything, punch a hole where the shape is," which looked like a solid brown rectangle covering the whole map. Root-caused via a battery of synthetic-geometry tests (isolated it to winding order, not vertex count, coordinate precision, or file size as initially suspected). Fixed by reversing every ring in both geojson files.
+  2. **BTC/EUR merge must key on year-month, not exact date**. `btc_eur.csv` has daily rows for recent months but monthly-only further back; merging on exact date against month-end price dates silently dropped all but ~2 of 131 rows per region (the region chart looked "loaded" but only showed a few weeks of data). Fixed by reducing btc_eur.csv to one price per year-month before merging.
+- Verified with a real headless browser (Playwright via npx) driving the actual running Streamlit app — not just unit-testing the data functions. Both tabs render, no console errors, map colors match price data, region charts show correct multi-decade trends.
+
 ## Not done yet
 
-1. **No map UI built.** Data + geo join + geometry + blend + validation are all done; nothing rendered yet. This is the only remaining task before a working prototype — everything upstream is complete.
-2. **Madeira/Açores boundary source** — only needed if national (not just mainland) coverage matters. Not investigated. 10 Funchal parishes have INE price data but no CAOP boundary.
+1. **Dark theme / design-guidelines.md tokens not applied.** Both tabs currently use Streamlit's default light theme; the project's Editorial Minimalism dark palette (`--color-bg: #0a0a0a`, sparing orange accent, etc.) has not been wired in. Explicitly deferred — user chose to ship functional first. Needs `.streamlit/config.toml` theme config plus `map_view.py`'s hardcoded chart colors updated to match.
+2. **Madeira/Açores boundary source** — only needed if national (not just mainland) coverage matters. Not investigated. 10 Funchal parishes have INE price data but no CAOP boundary, so they're excluded from the freguesia map (but do have município-level Funchal data, which is on CAOP's mainland-only municipios list — actually check this, Funchal is Madeira so likely ALSO missing at município level; flagged here as unverified).
 3. **Fix the 6 remaining mainland CAOP name mismatches** — low priority, pattern understood (parenthetical sub-parish splitting), affects 6 of 581 freguesias.
-4. **Simplification tolerance (8%) is untuned** — chosen as a reasonable default, not visually verified against the original shapes yet. Worth a quick visual check once the map renders before considering it final.
+4. **Simplification tolerances (8% freguesia, 5% município) are untuned defaults** — worth a visual check against unsimplified shapes at high zoom if map precision ever matters (e.g. a future feature showing exact boundaries).
 
 ## Settled decisions (do not re-litigate without new information)
 
