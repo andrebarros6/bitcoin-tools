@@ -1,0 +1,180 @@
+import json
+import os
+import pandas as pd
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import streamlit as st
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+
+ACCENT = "#f7931a"
+POSITIVE = "#22c55e"
+NEGATIVE = "#ef4444"
+TEXT_SECONDARY = "#a1a1a1"
+
+
+@st.cache_data
+def load_geometry(level):
+    filename = "municipios_web.geojson" if level == "municipio" else "freguesias_web.geojson"
+    with open(os.path.join(BASE, filename), encoding="utf-8") as f:
+        return json.load(f)
+
+
+@st.cache_data
+def load_price_series(level):
+    if level == "municipio":
+        df = pd.read_csv(os.path.join(BASE, "blended_municipio_series.csv"))
+        df["date"] = pd.to_datetime(df["period_date"])
+    else:
+        df = pd.read_csv(os.path.join(BASE, "ine_precos_m2_full.csv"))
+        df = df[df["valor_eur_m2"].notna()].copy()
+        df["date"] = pd.to_datetime(df["periodo"].str.extract(r"(\d)\D*Trimestre de (\d{4})").apply(
+            lambda r: f"{r[1]}-{int(r[0]) * 3:02d}-01", axis=1
+        )) + pd.offsets.MonthEnd(0)
+        df["source"] = "venda"
+        df = df.rename(columns={"valor_eur_m2": "valor_eur_m2"})
+    nivel = "5" if level == "municipio" else "6"
+    df = df[df["geo_nivel"].astype(str) == nivel]
+    df["valor_eur_m2"] = pd.to_numeric(df["valor_eur_m2"], errors="coerce")
+    return df.dropna(subset=["valor_eur_m2"])
+
+
+@st.cache_data
+def load_btc():
+    btc = pd.read_csv(os.path.join(BASE, "..", "data", "btc_eur.csv"))
+    btc["Date"] = pd.to_datetime(btc["Date"])
+    btc["Price"] = pd.to_numeric(btc["Price"].astype(str).str.replace(",", ""), errors="coerce")
+    return btc
+
+
+def latest_prices(df):
+    """Latest non-null value per geo_cod -- what the choropleth colors by."""
+    idx = df.groupby("geo_cod")["date"].idxmax()
+    return df.loc[idx, ["geo_cod", "geo_dsg", "valor_eur_m2", "date"]]
+
+
+def render():
+    st.markdown("""
+    <div style='background-color:#1a1a1a;padding:1.5rem;border-radius:0.5rem;margin-bottom:1.5rem;border-left:4px solid #f7931a;'>
+        <p style='font-size:1.1rem;line-height:1.6;margin:0;'>
+        O preço do m² varia muito entre regiões. Seleciona um município ou freguesia para ver a evolução local, em euros e em Bitcoin.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    level_label = st.radio(
+        "Nível geográfico:",
+        ["Município", "Freguesia"],
+        horizontal=True,
+        help="Município tem histórico mais longo (até 15 anos). Freguesia é mais detalhado mas só desde 2019.",
+    )
+    level = "municipio" if level_label == "Município" else "freguesia"
+
+    geo = load_geometry(level)
+    prices = load_price_series(level)
+    latest = latest_prices(prices)
+
+    geo_id_key = "properties.geo_cod"
+    fig_map = go.Figure(go.Choropleth(
+        geojson=geo,
+        locations=latest["geo_cod"],
+        z=latest["valor_eur_m2"],
+        featureidkey=geo_id_key,
+        colorscale=[[0, "#1a1a1a"], [1, ACCENT]],
+        marker_line_color="rgba(255,255,255,0.16)",
+        marker_line_width=0.5,
+        colorbar=dict(title="€/m²", tickprefix="€", outlinewidth=0, tickfont=dict(color=TEXT_SECONDARY)),
+        hovertemplate="<b>%{customdata}</b><br>€%{z:,.0f}/m²<extra></extra>",
+        customdata=latest["geo_dsg"],
+    ))
+    fig_map.update_geos(
+        visible=False,
+        fitbounds="locations",
+        scope="europe",
+        bgcolor="rgba(0,0,0,0)",
+        showland=False,
+        showcountries=False,
+        showcoastlines=False,
+        showframe=False,
+    )
+    fig_map.update_layout(
+        height=520,
+        margin=dict(l=0, r=0, t=10, b=0),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        geo=dict(bgcolor="rgba(0,0,0,0)"),
+    )
+    st.plotly_chart(fig_map, use_container_width=True)
+
+    region_names = sorted(latest["geo_dsg"].unique())
+    default_idx = region_names.index("Lisboa") if "Lisboa" in region_names else 0
+    selected = st.selectbox(f"Selecionar {level_label.lower()}:", region_names, index=default_idx)
+
+    region_df = prices[prices["geo_dsg"] == selected].sort_values("date")
+    if region_df.empty:
+        st.warning("Sem dados para esta região.")
+        return
+
+    btc = load_btc()
+    region_df["year_month"] = region_df["date"].dt.to_period("M")
+    btc = btc.copy()
+    btc["year_month"] = btc["Date"].dt.to_period("M")
+    btc_monthly = btc.sort_values("Date").groupby("year_month", as_index=False).last()
+    region_df = region_df.merge(
+        btc_monthly[["year_month", "Price"]].rename(columns={"Price": "btc_price"}), on="year_month", how="left"
+    )
+    region_df["valor_btc_m2"] = region_df["valor_eur_m2"] / region_df["btc_price"]
+    region_df = region_df.dropna(subset=["valor_btc_m2"])
+
+    if region_df.empty:
+        st.warning("Sem dados de preço BTC alinhados com este período.")
+        return
+
+    first, latest_row = region_df.iloc[0], region_df.iloc[-1]
+    eur_change = (latest_row["valor_eur_m2"] / first["valor_eur_m2"] - 1) * 100
+    btc_change = (latest_row["valor_btc_m2"] / first["valor_btc_m2"] - 1) * 100
+
+    if "source" in region_df.columns and region_df["source"].nunique() > 1:
+        st.caption(
+            "Este período combina duas fontes: avaliação bancária (até Q3 2019) e vendas efetivas (a partir de Q4 2019). "
+            "São metodologias diferentes — a linha vertical no gráfico assinala a transição."
+        )
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.metric(f"{selected} — EUR/m² (atual)", f"€{latest_row['valor_eur_m2']:,.0f}", f"{eur_change:+.1f}%")
+    with col2:
+        st.metric(f"{selected} — BTC/m² (atual)", f"{latest_row['valor_btc_m2']:.6f} BTC", f"{btc_change:+.1f}%", delta_color="inverse")
+
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    fig.add_trace(go.Scatter(
+        x=region_df["date"], y=region_df["valor_eur_m2"],
+        name="Preço/m² [EUR]", mode="lines", line=dict(color=POSITIVE, width=2),
+        hovertemplate="<b>%{x|%b %Y}</b><br>€%{y:,.0f}<extra></extra>",
+    ), secondary_y=False)
+    fig.add_trace(go.Scatter(
+        x=region_df["date"], y=region_df["valor_btc_m2"],
+        name="Preço/m² [BTC]", mode="lines", line=dict(color=ACCENT, width=2),
+        hovertemplate="<b>%{x|%b %Y}</b><br>%{y:.6f} BTC<extra></extra>",
+    ), secondary_y=True)
+
+    if "source" in region_df.columns and region_df["source"].nunique() > 1:
+        splice_date = region_df[region_df["source"] == "venda"]["date"].min()
+        fig.add_vline(x=splice_date, line_dash="dot", line_color=TEXT_SECONDARY, opacity=0.5)
+
+    fig.update_xaxes(title_text="Data")
+    fig.update_yaxes(title_text="<b>Preço por m² (EUR)</b>", secondary_y=False,
+                      title_font=dict(color=POSITIVE), gridcolor="rgba(34,197,94,0.15)")
+    fig.update_yaxes(title_text="<b>Preço por m² (BTC)</b>", secondary_y=True,
+                      title_font=dict(color=ACCENT), gridcolor="rgba(247,147,26,0.15)")
+    fig.update_layout(
+        hovermode="x unified", height=500,
+        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+    st.caption(
+        "Dados: INE (Estatísticas de Preços da Habitação ao Nível Local e Inquérito à Avaliação Bancária na Habitação) "
+        "· preço BTC/EUR via Kraken/Investing.com"
+    )
