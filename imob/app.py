@@ -206,6 +206,11 @@ def render_national():
     """, unsafe_allow_html=True)
 
 
+st.markdown(
+    "<a href='https://bitcoinpt.barrosbuilds.com' style='font-size:0.9rem;color:#a1a1a1;text-decoration:none;'>"
+    "&larr; bitcoinpt</a>",
+    unsafe_allow_html=True,
+)
 st.title("🏠 Preço por m² em Portugal — EUR vs BTC")
 st.markdown("---")
 
