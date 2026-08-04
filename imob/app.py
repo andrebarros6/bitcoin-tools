@@ -38,7 +38,7 @@ def render_national():
     max_date = df["Date"].max().date()
 
     if "start_date" not in st.session_state:
-        st.session_state.start_date = min_date
+        st.session_state.start_date = max(min_date, date(max_date.year - 5, max_date.month, max_date.day))
     if "end_date" not in st.session_state:
         st.session_state.end_date = max_date
 
