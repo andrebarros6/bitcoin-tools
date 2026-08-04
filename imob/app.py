@@ -44,14 +44,20 @@ def render_national():
 
     st.sidebar.header("Controlos")
 
-    date_range = st.sidebar.date_input(
+    month_options = pd.period_range(start=min_date, end=max_date, freq="M")
+
+    def _closest_month(target_date):
+        target_period = pd.Period(target_date, freq="M")
+        return min(month_options, key=lambda p: abs((p - target_period).n))
+
+    start_month, end_month = st.sidebar.select_slider(
         "Selecionar intervalo de datas:",
-        value=(st.session_state.start_date, st.session_state.end_date),
-        min_value=min_date,
-        max_value=max_date,
+        options=month_options,
+        value=(_closest_month(st.session_state.start_date), _closest_month(st.session_state.end_date)),
+        format_func=lambda p: p.strftime("%b %Y"),
     )
-    if len(date_range) == 2:
-        st.session_state.start_date, st.session_state.end_date = date_range
+    st.session_state.start_date = start_month.start_time.date()
+    st.session_state.end_date = min(end_month.end_time.date(), max_date)
 
     use_log_scale = st.sidebar.checkbox("Escala logarítmica para BTC", value=False)
     st.session_state.use_log_scale = use_log_scale
