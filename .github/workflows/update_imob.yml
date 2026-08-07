@@ -108,3 +108,56 @@ jobs:
           git add imob/m2-casas-PT.csv
           git diff --cached --quiet || git commit -m "chore: update imob price data [$(date -u +%Y-%m-%d)]"
           git push
+
+  update-regional:
+    runs-on: ubuntu-latest
+    needs: update
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install pandas
+
+      - name: Refresh INE sales series (município + freguesia)
+        working-directory: imob
+        run: python ine_extractor.py 0012234 H1 ine_precos_m2_full.csv
+
+      - name: Re-blend municipio series
+        working-directory: imob
+        run: python blend_series.py
+
+      - name: Check for real data changes and summarize
+        id: diff
+        working-directory: imob
+        run: |
+          if git diff --quiet -- ine_precos_m2_full.csv blended_municipio_series.csv; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No regional data changes this run."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            python summarize_regional_update.py > /tmp/update_summary.txt
+            cat /tmp/update_summary.txt
+          fi
+
+      - name: Commit updated regional data
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add imob/ine_precos_m2_full.csv imob/blended_municipio_series.csv
+          git commit -m "chore: update regional housing price data [$(date -u +%Y-%m-%d)]"
+          git push
+
+      - name: Upload update summary
+        if: steps.diff.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: regional-update-summary
+          path: /tmp/update_summary.txt
+          retention-days: 30
