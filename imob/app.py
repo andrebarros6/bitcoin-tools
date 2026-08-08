@@ -6,6 +6,7 @@ from plotly.subplots import make_subplots
 from datetime import date
 
 import map_view
+import dca_calc
 
 st.set_page_config(
     page_title="Preço m² Portugal: EUR vs BTC",
@@ -233,10 +234,13 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-tab_national, tab_map = st.tabs(["🇵🇹 Nacional", "🗺️ Por região"])
+tab_national, tab_map, tab_dca = st.tabs(["🇵🇹 Nacional", "🗺️ Por região", "🧮 Calculadora"])
 
 with tab_national:
     render_national()
 
 with tab_map:
     map_view.render()
+
+with tab_dca:
+    dca_calc.render()
