@@ -1,0 +1,32 @@
+name: Update Cabaz Data
+
+on:
+  schedule:
+    - cron: "0 9 * * 3"  # weekly, Wednesday 09:00 UTC
+  workflow_dispatch:      # allow manual trigger
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install requests
+
+      - name: Scrape cabaz data and merge with BTC price
+        run: python cabaz/weekly_update.py
+
+      - name: Commit updated data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cabaz/infogram_data_with_btc.csv
+          git diff --cached --quiet || git commit -m "chore: update cabaz alimentar data [$(date -u +%Y-%m-%d)]"
+          git push
