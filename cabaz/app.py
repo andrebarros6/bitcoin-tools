@@ -50,6 +50,7 @@ def main():
             font-size: 2.5rem;
             font-weight: bold;
             margin-bottom: 2rem;
+            color: #ededed;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -133,7 +134,7 @@ def main():
 
     st.markdown("""
     <div style='background-color: #111111; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #f7931a;'>
-        <p style='font-size: 1.1rem; line-height: 1.6; margin-bottom: 1rem;'>
+        <p style='font-size: 1.1rem; line-height: 1.6; margin-bottom: 1rem; color: #ededed;'>
         Nos últimos anos, o aumento da oferta monetária tem contribuído para a inflação, fazendo com que os preços dos produtos no supermercado aumentem constantemente.
         \n Isto significa que os teus euros compram cada vez menos produtos.
         \n A Bitcoin, com a sua oferta limitada a 21 milhões de unidades, surge como uma ferramenta de proteção do poder de compra.
