@@ -104,32 +104,29 @@ def render_national():
         help="Média nacional — não muda ao selecionar uma região na aba \"Por região\".",
     )
 
-    st.markdown("""
-    <div style='background-color:#1a1a1a;padding:1.5rem;border-radius:0.5rem;margin-bottom:1.5rem;border-left:4px solid #f39c12;'>
-        <p style='font-size:1.1rem;line-height:1.6;margin:0;'>
-        Nos últimos anos, o aumento da oferta monetária tem contribuído para a inflação, fazendo com que os preços dos imóveis em Portugal aumentem constantemente.
-        Os teus euros compram cada vez menos metros quadrados.
-        A Bitcoin, com a sua oferta limitada a 21 milhões de unidades, surge como uma ferramenta de proteção do poder de compra.
-        Como podes ver no gráfico abaixo, o mesmo metro quadrado que fica cada vez mais caro em euros, fica progressivamente mais barato quando medido em Bitcoin.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.info(
+        "Nos últimos anos, o aumento da oferta monetária tem contribuído para a inflação, "
+        "fazendo com que os preços dos imóveis em Portugal aumentem constantemente. "
+        "Os teus euros compram cada vez menos metros quadrados. "
+        "A Bitcoin, com a sua oferta limitada a 21 milhões de unidades, surge como uma "
+        "ferramenta de proteção do poder de compra. "
+        "Como podes ver no gráfico abaixo, o mesmo metro quadrado que fica cada vez mais "
+        "caro em euros, fica progressivamente mais barato quando medido em Bitcoin."
+    )
 
     if len(filtered_df) > 1:
         first = filtered_df.iloc[0]
         latest = filtered_df.iloc[-1]
         eur_change = ((latest["Preco m2 [EUR]"] - first["Preco m2 [EUR]"]) / first["Preco m2 [EUR]"]) * 100
         price_word = "caro" if eur_change > 0 else "barato"
-        color = "#e74c3c" if eur_change > 0 else "#2ecc71"
-        st.markdown(f"""
-        <div style='text-align:center;padding:1.5rem;margin-bottom:2rem;'>
-            <p style='font-size:1.5rem;margin:0;'>
-                <span style='color:white;'>No período selecionado, o imóvel está</span>
-                <span style='color:{color};font-weight:bold;'> {abs(eur_change):.1f}% mais {price_word}</span><span style='color:white;'>.</span>
-            </p>
-            <p style='font-size:1.3rem;color:#bbb;margin-top:0.5rem;'>Quanto aumentou o teu salário?</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f"<div style='text-align:center;padding:1.5rem 0;'>"
+            f"<p style='font-size:1.5rem;margin:0;'>No período selecionado, o imóvel está "
+            f"<strong>{abs(eur_change):.1f}% mais {price_word}</strong>.</p>"
+            f"<p style='font-size:1.3rem;opacity:0.65;margin-top:0.5rem;'>Quanto aumentou o teu salário?</p>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
 
     fig = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -164,7 +161,7 @@ def render_national():
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
 
     st.markdown("---")
     st.subheader("📈 Análise Comparativa")
@@ -199,19 +196,13 @@ def render_national():
         st.dataframe(display_df, use_container_width=True, hide_index=True)
 
     st.markdown("---")
-    st.markdown("""
-    <div style='text-align:center;color:gray;'>
-    <small>Dados: preço do m² via <a href='https://www.idealista.pt/media/relatorios-preco-habitacao/venda/historico/' target='_blank' style='color:gray;'>idealista.pt</a>
-    · preço BTC/EUR via <a href='https://www.coingecko.com' target='_blank' style='color:gray;'>CoinGecko</a></small>
-    </div>
-    """, unsafe_allow_html=True)
+    st.caption(
+        "Dados: preço do m² via [idealista.pt](https://www.idealista.pt/media/relatorios-preco-habitacao/venda/historico/) "
+        "· preço BTC/EUR via [CoinGecko](https://www.coingecko.com)"
+    )
 
 
-st.markdown(
-    "<a href='https://bitcoinpt.barrosbuilds.com' style='font-size:0.9rem;color:#a1a1a1;text-decoration:none;'>"
-    "&larr; bitcoinpt</a>",
-    unsafe_allow_html=True,
-)
+st.caption("[← bitcoinpt](https://bitcoinpt.barrosbuilds.com)")
 st.title("🏠 Preço por m² em Portugal — EUR vs BTC")
 st.markdown("---")
 

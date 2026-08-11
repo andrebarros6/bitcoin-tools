@@ -44,17 +44,6 @@ def format_eur(value):
 
 
 def main():
-    st.markdown("""
-        <style>
-        .main-title {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin-bottom: 2rem;
-            color: #ededed;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
     df = load_data()
 
     st.sidebar.header("Controlos")
@@ -126,48 +115,38 @@ def main():
         st.sidebar.metric("Preço atual do cabaz alimentar em EUR", format_eur(latest['Price']))
         st.sidebar.metric("Preço atual do cabaz alimentar em BTC (atual)", format_btc(latest['Price_in_BTC']))
 
-    st.markdown('<div class="main-title">🛒 Cabaz Alimentar em Portugal - EUR vs BTC</div>', unsafe_allow_html=True)
+    st.title("🛒 Cabaz Alimentar em Portugal - EUR vs BTC")
 
     if len(filtered_df) == 0:
         st.warning("Nenhum dado disponível para o período selecionado.")
         return
 
-    st.markdown("""
-    <div style='background-color: #111111; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #f7931a;'>
-        <p style='font-size: 1.1rem; line-height: 1.6; margin-bottom: 1rem; color: #ededed;'>
-        Nos últimos anos, o aumento da oferta monetária tem contribuído para a inflação, fazendo com que os preços dos produtos no supermercado aumentem constantemente.
-        \n Isto significa que os teus euros compram cada vez menos produtos.
-        \n A Bitcoin, com a sua oferta limitada a 21 milhões de unidades, surge como uma ferramenta de proteção do poder de compra.
-        \n Como podes comprovar no gráfico abaixo, o mesmo cabaz alimentar que fica cada vez mais caro em euros, fica progressivamente mais barato quando medido em Bitcoin.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.info(
+        "Nos últimos anos, o aumento da oferta monetária tem contribuído para a inflação, "
+        "fazendo com que os preços dos produtos no supermercado aumentem constantemente.\n\n"
+        "Isto significa que os teus euros compram cada vez menos produtos.\n\n"
+        "A Bitcoin, com a sua oferta limitada a 21 milhões de unidades, surge como uma "
+        "ferramenta de proteção do poder de compra.\n\n"
+        "Como podes comprovar no gráfico abaixo, o mesmo cabaz alimentar que fica cada vez "
+        "mais caro em euros, fica progressivamente mais barato quando medido em Bitcoin."
+    )
 
     if len(filtered_df) > 1:
         first = filtered_df.iloc[0]
         latest = filtered_df.iloc[-1]
         eur_change = ((latest['Price'] - first['Price']) / first['Price']) * 100
 
-        if eur_change > 0:
-            price_word = "caro"
-            color = "#ef4444"
-        else:
-            price_word = "barato"
-            color = "#22c55e"
-
+        price_word = "caro" if eur_change > 0 else "barato"
         abs_change = abs(eur_change)
 
-        st.markdown(f"""
-        <div style='text-align: center; padding: 1.5rem; margin-bottom: 2rem;'>
-            <p style='font-size: 1.5rem; margin: 0;'>
-                <span style='color: #ededed;'>No período selecionado, o cabaz alimentar está</span>
-                <span style='color: {color}; font-weight: bold;'> {abs_change:.1f}% mais {price_word}</span><span style='color: #ededed;'>.</span>
-            </p>
-            <p style='font-size: 1.3rem; color: #a1a1a1; margin-top: 0.5rem;'>
-                Quanto aumentou o teu salário?
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown(
+            f"<div style='text-align: center; padding: 1.5rem 0;'>"
+            f"<p style='font-size: 1.5rem; margin: 0;'>No período selecionado, o cabaz alimentar "
+            f"está <strong>{abs_change:.1f}% mais {price_word}</strong>.</p>"
+            f"<p style='font-size: 1.3rem; opacity: 0.65; margin-top: 0.5rem;'>Quanto aumentou o teu salário?</p>"
+            f"</div>",
+            unsafe_allow_html=True
+        )
 
     fig = go.Figure()
 
@@ -189,16 +168,10 @@ def main():
     ))
 
     fig.update_layout(
-        xaxis=dict(
-            title='Data',
-            gridcolor='#1a1a1a',
-            showgrid=True
-        ),
+        xaxis=dict(title='Data'),
         yaxis=dict(
             title=dict(text='Preço do Cabaz [EUR]', font=dict(color='#22c55e')),
             tickfont=dict(color='#22c55e'),
-            gridcolor='#1a1a1a',
-            showgrid=True,
             side='left'
         ),
         yaxis2=dict(
@@ -210,9 +183,6 @@ def main():
             showgrid=False
         ),
         hovermode='x unified',
-        plot_bgcolor='#0a0a0a',
-        paper_bgcolor='#0a0a0a',
-        font=dict(color='#ededed'),
         height=600,
         legend=dict(
             orientation="h",
@@ -223,7 +193,7 @@ def main():
         )
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
 
     st.markdown("---")
     st.subheader("📈 Análise Comparativa")
@@ -269,14 +239,7 @@ def main():
         st.dataframe(display_df, use_container_width=True, hide_index=True)
 
     st.markdown("---")
-    st.markdown(
-        """
-        <div style='text-align: center; color: #6b6b6b;'>
-        <small>Dados: BTC/EUR via CoinGecko e cabaz alimentar via DECO PROTESTE</small>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+    st.caption("Dados: BTC/EUR via CoinGecko e cabaz alimentar via DECO PROTESTE")
 
 
 if __name__ == '__main__':

@@ -14,14 +14,10 @@ def _earliest_region_date(prices, geo_dsg):
 
 
 def render():
-    st.markdown("""
-    <div style='background-color:#1a1a1a;padding:1.5rem;border-radius:0.5rem;margin-bottom:1.5rem;border-left:4px solid #f7931a;'>
-        <p style='font-size:1.1rem;line-height:1.6;margin:0;'>
-        Se tivesses investido um valor fixo em Bitcoin todos os meses, em vez de o guardares em euros,
-        a quantos m² isso equivaleria hoje? Compara as duas estratégias.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.info(
+        "Se tivesses investido um valor fixo em Bitcoin todos os meses, em vez de o "
+        "guardares em euros, a quantos m² isso equivaleria hoje? Compara as duas estratégias."
+    )
 
     level_label = st.radio(
         "Nível geográfico:",
@@ -125,16 +121,15 @@ def render():
     n_months = len(sim_months)
     multiplier = latest["m2_btc_route"] / latest["m2_cash_route"] if latest["m2_cash_route"] > 0 else float("nan")
 
-    st.markdown(f"""
-    <div style='text-align:center;padding:1.5rem;margin-bottom:1rem;'>
-        <p style='font-size:1.5rem;margin:0;'>
-            <span style='color:white;'>Em {n_months} meses, investir €{monthly_amount:,.0f}/mês em Bitcoin em vez de poupar em euros
-            teria comprado</span>
-            <span style='color:{ACCENT};font-weight:bold;'> {multiplier:.1f}x mais m²</span>
-            <span style='color:white;'> em {selected}.</span>
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(
+        f"<div style='text-align:center;padding:1.5rem 0 1rem;'>"
+        f"<p style='font-size:1.5rem;margin:0;'>Em {n_months} meses, investir "
+        f"€{monthly_amount:,.0f}/mês em Bitcoin em vez de poupar em euros teria comprado "
+        f"<span style='color:{ACCENT};font-weight:bold;'>{multiplier:.1f}x mais m²</span> "
+        f"em {selected}.</p>"
+        f"</div>",
+        unsafe_allow_html=True
+    )
 
     col1, col2 = st.columns(2)
     with col1:
@@ -162,13 +157,12 @@ def render():
         hovertemplate="<b>%{x|%b %Y}</b><br>%{y:.1f} m²<extra></extra>",
     ))
     fig.update_xaxes(title_text="Data")
-    fig.update_yaxes(title_text="<b>m² equivalentes</b>", gridcolor="rgba(255,255,255,0.08)")
+    fig.update_yaxes(title_text="<b>m² equivalentes</b>")
     fig.update_layout(
         hovermode="x unified", height=460,
-        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
 
     st.caption(
         "Simulação: compra mensal de Bitcoin ao preço de fecho do mês, sem taxas. "

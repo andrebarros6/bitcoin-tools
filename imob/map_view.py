@@ -62,13 +62,10 @@ def earliest_available_date():
 
 
 def render():
-    st.markdown("""
-    <div style='background-color:#1a1a1a;padding:1.5rem;border-radius:0.5rem;margin-bottom:1.5rem;border-left:4px solid #f7931a;'>
-        <p style='font-size:1.1rem;line-height:1.6;margin:0;'>
-        O preço do m² varia muito entre regiões. Seleciona um município ou freguesia para ver a evolução local, em euros e em Bitcoin.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.info(
+        "O preço do m² varia muito entre regiões. Seleciona um município ou freguesia "
+        "para ver a evolução local, em euros e em Bitcoin."
+    )
 
     level_label = st.radio(
         "Nível geográfico:",
@@ -82,16 +79,22 @@ def render():
     prices = load_price_series(level)
     latest = latest_prices(prices)
 
+    theme_base = st.get_option("theme.base") or "dark"
+    is_dark = theme_base == "dark"
+    map_text_color = st.get_option("theme.textColor") or ("#ededed" if is_dark else "#31333F")
+    map_low_color = "#3a3a3a" if is_dark else "#e5e5e5"
+    map_border_color = "rgba(255,255,255,0.16)" if is_dark else "rgba(0,0,0,0.16)"
+
     geo_id_key = "properties.geo_cod"
     fig_map = go.Figure(go.Choropleth(
         geojson=geo,
         locations=latest["geo_cod"],
         z=latest["valor_eur_m2"],
         featureidkey=geo_id_key,
-        colorscale=[[0, "#1a1a1a"], [1, ACCENT]],
-        marker_line_color="rgba(255,255,255,0.16)",
+        colorscale=[[0, map_low_color], [1, ACCENT]],
+        marker_line_color=map_border_color,
         marker_line_width=0.5,
-        colorbar=dict(title="€/m²", tickprefix="€", outlinewidth=0, tickfont=dict(color=TEXT_SECONDARY)),
+        colorbar=dict(title="€/m²", tickprefix="€", outlinewidth=0, tickfont=dict(color=map_text_color)),
         hovertemplate="<b>%{customdata}</b><br>€%{z:,.0f}/m²<extra></extra>",
         customdata=latest["geo_dsg"],
     ))
@@ -228,10 +231,9 @@ def render():
                       title_font=dict(color=ACCENT), gridcolor="rgba(247,147,26,0.15)")
     fig.update_layout(
         hovermode="x unified", height=500,
-        paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, use_container_width=True, theme="streamlit")
 
     st.caption(
         "Dados: INE (Estatísticas de Preços da Habitação ao Nível Local e Inquérito à Avaliação Bancária na Habitação) "
