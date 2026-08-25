@@ -21,7 +21,7 @@ jobs:
       - run: pip install requests
 
       - name: Scrape cabaz data and merge with BTC price
-        run: python cabaz/weekly_update.py
+        run: python cabaz/publico_update.py
 
       - name: Commit updated data
         run: |
