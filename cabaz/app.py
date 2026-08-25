@@ -115,6 +115,7 @@ def main():
         st.sidebar.metric("Preço atual do cabaz alimentar em EUR", format_eur(latest['Price']))
         st.sidebar.metric("Preço atual do cabaz alimentar em BTC (atual)", format_btc(latest['Price_in_BTC']))
 
+    st.caption("[← bitcoinpt](https://bitcoinpt.barrosbuilds.com)")
     st.title("🛒 Cabaz Alimentar em Portugal - EUR vs BTC")
 
     if len(filtered_df) == 0:
