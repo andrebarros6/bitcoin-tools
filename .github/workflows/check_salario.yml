@@ -1,0 +1,69 @@
+name: Check Salary Data
+
+# The salary series are annual, not daily: the salario minimo is set by decree
+# each January and INE publishes the salario medio annual average in February.
+# There is nothing to scrape daily, so this job only opens an issue when the
+# CSVs have fallen behind the current year.
+
+on:
+  schedule:
+    - cron: "0 9 5 1,2,3 *"  # 5 Jan/Feb/Mar, after both publications land
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install pandas
+
+      - name: Check whether salary CSVs cover the current year
+        id: check
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import pandas as pd
+          from datetime import date
+
+          year = date.today().year
+          stale = []
+          for name, path, lag in [
+              ("salario minimo", "salario/salario_minimo.csv", 0),
+              # INE publishes the previous year's average, so it trails by one.
+              ("salario medio", "salario/salario_medio.csv", 1),
+          ]:
+              latest = int(pd.read_csv(path)["Ano"].max())
+              if latest < year - lag:
+                  stale.append(f"{name}: ultimo ano {latest}, esperado {year - lag}")
+
+          print(f"stale={'true' if stale else 'false'}")
+          print("details<<EOF")
+          print("\n".join(stale) if stale else "up to date")
+          print("EOF")
+          PY
+
+      - name: Open an issue if the data is stale
+        if: steps.check.outputs.stale == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const details = `${{ steps.check.outputs.details }}`;
+            const title = "Atualizar dados de salarios";
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: "open", labels: "data",
+            });
+            if (issues.some(i => i.title === title)) return;
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title, labels: ["data"],
+              body: `As series de salarios estao desatualizadas:\n\n\`\`\`\n${details}\n\`\`\`\n\nFontes: DGAEP/Pordata (minimo), INE (medio).`,
+            });
