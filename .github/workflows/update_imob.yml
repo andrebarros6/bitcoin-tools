@@ -21,6 +21,9 @@ jobs:
       - run: pip install requests beautifulsoup4 pandas
 
       - name: Scrape idealista and update CSV
+        # idealista intermittently 403s GitHub runner IPs. Treat a failed
+        # scrape as "no new national data this month", not a broken workflow.
+        continue-on-error: true
         run: |
           python - <<'EOF'
           import requests
@@ -111,7 +114,11 @@ jobs:
 
   update-regional:
     runs-on: ubuntu-latest
+    # Deliberately not gated on `update`: INE is an official API and must keep
+    # publishing even when the idealista scrape is blocked. `always()` still
+    # waits for `update` to finish first, so the two jobs never race on a push.
     needs: update
+    if: always()
     permissions:
       contents: write
 
