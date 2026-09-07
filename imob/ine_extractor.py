@@ -27,6 +27,8 @@ BASE_META = "https://www.ine.pt/ine/json_indicador/pindicaMeta.jsp"
 BASE_DATA = "https://www.ine.pt/ine/json_indicador/pindica.jsp"
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 WORKERS = 12
+# Above this share of failed requests the run is treated as broken, not partial.
+MAX_SKIP_FRACTION = 0.05
 
 
 def fetch_json(url, retries=4):
@@ -151,6 +153,16 @@ def main():
     max_nivel = max(nivel for _, _, nivel in geo_codes)
     finest_count = sum(1 for _, _, nivel in geo_codes if nivel == max_nivel)
     print(f"Finest geo level attempted: nivel {max_nivel} ({finest_count} locations)", flush=True)
+
+    # A partially-fetched run is worse than no run: the output is written with
+    # "w", so committing a degraded CSV would silently replace good regional
+    # data with a fraction of it. Fail loudly instead and leave the previous
+    # committed file untouched.
+    if skipped_chunks > total * MAX_SKIP_FRACTION:
+        raise SystemExit(
+            f"Aborting: {skipped_chunks}/{total} requests failed "
+            f"(>{MAX_SKIP_FRACTION:.0%}). Refusing to publish a partial series."
+        )
 
 
 if __name__ == "__main__":
