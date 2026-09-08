@@ -19,6 +19,15 @@ price date they report on):
   29 jul 2026: 253.47  (jornaleconomico.sapo.pt, folhanacional.pt,
                         cross-checked: 251.29 + 2.18 = 253.47 exact)
   05 aug 2026: 253.60  (dnoticias.pt 2026/8/5, observador.pt, cnnportugal.iol.pt)
+
+Second gap: Publico's interactive stopped being populated after 2026-08-19
+(its bundle still carries empty slots for later weeks), while DECO kept
+publishing. Same treatment:
+  26 aug 2026: 252.62  (dnoticias.pt 2026/8/26, eco.sapo.pt, diariodominho.pt,
+                        cross-checked: 253.55 - 0.94 = 252.61 ~= 252.62)
+  02 sep 2026: 254.73  (dnoticias.pt 2026/9/2, cnnportugal.iol.pt, sol.iol.pt,
+                        cross-checked: 252.62 + 2.11 = 254.73 exact; the
+                        2 sep article also restates the prior week as 252.62)
 """
 
 import csv
@@ -43,6 +52,8 @@ NEWS_POINTS = [
     (datetime(2026, 7, 22), 251.29),
     (datetime(2026, 7, 29), 253.47),
     (datetime(2026, 8, 5), 253.60),
+    (datetime(2026, 8, 26), 252.62),
+    (datetime(2026, 9, 2), 254.73),
 ]
 
 
