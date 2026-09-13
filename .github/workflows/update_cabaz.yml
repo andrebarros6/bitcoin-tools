@@ -21,7 +21,15 @@ jobs:
       - run: pip install requests
 
       - name: Scrape cabaz data and merge with BTC price
+        # Publico is the primary source but has stalled for weeks at a time.
+        # Don't let a bad fetch here stop the news fallback from running.
+        continue-on-error: true
         run: python cabaz/publico_update.py
+
+      - name: Fill any gaps from news coverage
+        # Only writes weeks Publico hasn't already supplied, so this is a
+        # no-op whenever the primary source is keeping up.
+        run: python cabaz/news_update.py
 
       - name: Commit updated data
         run: |
