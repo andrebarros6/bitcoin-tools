@@ -1,0 +1,94 @@
+name: Check Cabaz Freshness
+
+# The cabaz updaters are no-ops when their sources carry nothing new, so a
+# stalled source and a healthy pipeline look identical: a green check and
+# "No new cabaz data". Publico went quiet for six weeks in mid-2026 and
+# again in August before anyone noticed. This job watches the data itself.
+
+on:
+  schedule:
+    - cron: "0 11 * * 4"  # Thursday, a day after DECO's Wednesday release
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Check how old the newest cabaz row is
+        id: check
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import csv
+          from datetime import date, datetime
+
+          MONTHS = {
+              "janeiro": 1, "fevereiro": 2, "março": 3, "abril": 4, "maio": 5,
+              "junho": 6, "julho": 7, "agosto": 8, "setembro": 9,
+              "outubro": 10, "novembro": 11, "dezembro": 12,
+          }
+
+          def parse(value):
+              parts = value.strip().split()
+              return date(int(parts[4]), MONTHS[parts[2]], int(parts[0]))
+
+          with open("cabaz/infogram_data_with_btc.csv", encoding="utf-8") as f:
+              latest = max(parse(row["Date"]) for row in csv.DictReader(f))
+
+          age = (date.today() - latest).days
+          # DECO publishes weekly, so 7-13 days old is normal. Two missed
+          # weeks running is the signal that something is actually stuck.
+          stale = age > 16
+
+          print(f"stale={'true' if stale else 'false'}")
+          print(f"latest={latest.isoformat()}")
+          print(f"age={age}")
+          PY
+
+      - name: Report freshness
+        run: |
+          echo "Newest cabaz row: ${{ steps.check.outputs.latest }} (${{ steps.check.outputs.age }} days old)"
+
+      - name: Open an issue if the series has stalled
+        if: steps.check.outputs.stale == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const latest = "${{ steps.check.outputs.latest }}";
+            const age = "${{ steps.check.outputs.age }}";
+            const title = "Cabaz alimentar data esta desatualizada";
+
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: "open", labels: "data",
+            });
+            if (issues.some(i => i.title === title)) return;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner, repo: context.repo.repo,
+              title, labels: ["data"],
+              body: [
+                `A serie do cabaz nao recebe dados novos ha ${age} dias.`,
+                `Ultima semana no CSV: **${latest}**.`,
+                "",
+                "DECO PROteste publica a quarta-feira, portanto isto indica que",
+                "as duas fontes falharam:",
+                "",
+                "- `cabaz/publico_update.py` — o interativo do Publico pode ter",
+                "  parado de ser atualizado (ja aconteceu em jun-ago e ago-set 2026).",
+                "- `cabaz/news_update.py` — a API do ECO pode ter mudado, ou a",
+                "  cobertura semanal pode ter parado.",
+                "",
+                "Verificar os logs de ambos os workflows antes de assumir que a",
+                "DECO deixou de publicar.",
+              ].join("\n"),
+            });
