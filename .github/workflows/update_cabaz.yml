@@ -2,7 +2,11 @@ name: Update Cabaz Data
 
 on:
   schedule:
-    - cron: "0 9 * * 3"  # weekly, Wednesday 09:00 UTC
+    # DECO publishes Wednesday afternoon. Same-day articles have landed
+    # between 12:05 and 19:40 UTC, so run at 20:00 UTC (21:00 Lisbon) to
+    # catch the whole window. The old 09:00 slot was before every one of
+    # them, which is why a week was only ever picked up on a later run.
+    - cron: "0 20 * * 3"  # weekly, Wednesday 20:00 UTC
   workflow_dispatch:      # allow manual trigger
 
 jobs:
