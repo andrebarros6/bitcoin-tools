@@ -16,8 +16,13 @@
   a:hover { color: oklch(0.66 0.16 55); }
 
   @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes eroBar { from { width: 0%; } to { width: 26.5%; } }
-  @keyframes growBar { from { width: 0%; } to { width: 97.3%; } }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes cutLine { 0% { opacity: 0; } 20% { opacity: 1; } 90% { opacity: 1; } 100% { opacity: 0; } }
+  @keyframes scissorsCut { 0% { top: 32px; opacity: 0; } 15% { top: 32px; opacity: 1; } 85% { top: 76px; opacity: 1; } 100% { top: 80px; opacity: 0; } }
+  @keyframes snipL { to { transform: rotate(-12deg); } }
+  @keyframes snipR { to { transform: rotate(12deg); } }
+  @keyframes pieceDrop { 0% { transform: translate(0, 0) rotate(0); filter: none; opacity: 1; } 70% { transform: translate(-10px, 91px) rotate(90deg); filter: grayscale(0.4); opacity: 0.9; } 100% { transform: translate(-10px, 91px) rotate(90deg); filter: grayscale(1); opacity: 0.3; } }
+  @keyframes billFall { from { transform: translateY(-220px) rotate(var(--r0)); opacity: 0; } 20% { opacity: 1; } to { transform: translateY(0) rotate(var(--r)); opacity: 1; } }
   @keyframes livePulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.82); } }
 
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
@@ -53,16 +58,32 @@
   .hero-card-top h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 16px; margin: 0; letter-spacing: -0.01em; }
   .hero-card-top span { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(0.6 0.01 250); }
 
-  .bar-row { margin-top: 22px; }
-  .bar-row + .bar-row { margin-top: 20px; }
-  .bar-label { display: flex; align-items: baseline; justify-content: space-between; font-size: 13.5px; margin-bottom: 8px; }
-  .bar-label .name { color: oklch(0.45 0.01 250); }
-  .bar-label .val { font-family: 'IBM Plex Mono', monospace; font-weight: 600; color: oklch(0.45 0.02 250); }
-  .bar-label .val.btc { color: oklch(0.6 0.16 55); }
-  .bar-track { height: 12px; border-radius: 999px; background: oklch(0.94 0.004 250); overflow: hidden; }
-  .bar-fill { height: 100%; border-radius: 999px; }
-  .bar-fill.eur { background: oklch(0.62 0.02 250); animation: eroBar 1.4s 0.3s cubic-bezier(.4,0,.2,1) both; }
-  .bar-fill.btc { background: oklch(0.66 0.16 55); animation: growBar 1.4s 0.5s cubic-bezier(.4,0,.2,1) both; }
+  .pp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 20px; }
+  .pp-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13.5px; color: oklch(0.45 0.01 250); margin-bottom: 8px; }
+  .pp-head .coin { display: inline-flex; align-items: center; gap: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: oklch(0.5 0.06 55); }
+  .pp-head .coin b { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: 50%; background: oklch(0.66 0.16 55); color: oklch(0.99 0 0); font-family: 'Space Grotesk', sans-serif; font-size: 11px; }
+  .pp-stage { position: relative; height: 180px; overflow: hidden; background: oklch(0.98 0.004 250); border: 1px solid oklch(0.93 0.005 250); border-radius: 10px; }
+  .pp-stage .bill { position: absolute; width: 56px; height: 31px; }
+  /* Euro side: the note sits mid-column; scissors cut its right fifth (x 43 of 56, the 23% lost since 2016), which drops to the floor and fades. */
+  .pp-stage .keep, .pp-stage .piece { position: absolute; top: 60px; height: 31px; }
+  .pp-stage .keep { left: calc(50% - 28px); width: 43px; }
+  .pp-stage .piece { left: calc(50% + 15px); width: 13px; animation: pieceDrop 1.4s 2.1s cubic-bezier(.5,0,.6,1) both; }
+  .pp-stage .slot { position: absolute; left: calc(50% + 15px); top: 60px; width: 13px; height: 31px; border: 1px dashed oklch(0.75 0.01 250); border-left: 0; border-radius: 0 2px 2px 0; animation: fadeIn 0.3s 2.1s ease both; }
+  .pp-stage .cut { position: absolute; left: calc(50% + 15px); top: 52px; height: 47px; border-left: 1.5px dashed oklch(0.55 0.16 25); animation: cutLine 1.7s 0.4s both; }
+  .pp-stage .scissors { position: absolute; left: calc(50% + 7px); width: 16px; height: 21px; animation: scissorsCut 1.6s 0.5s ease-in-out both; }
+  .pp-stage .scissors g { transform-box: view-box; transform-origin: 12px 18px; }
+  .pp-stage .scissors .l { animation: snipL 0.16s infinite alternate; }
+  .pp-stage .scissors .r { animation: snipR 0.16s infinite alternate; }
+  .pp-stage .loss-tag { position: absolute; left: calc(50% - 4px); bottom: 26px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 600; color: oklch(0.55 0.16 25); animation: fadeIn 0.4s 2.9s ease both; }
+  .pp-stage .bill.fall { left: calc(6px + var(--x) * (100% - 68px)); bottom: calc(6px + var(--y) * (100% - 53px)); transform: rotate(var(--r)); animation: billFall 0.7s var(--d) cubic-bezier(.5,0,.75,1) both; }
+  .pp-val { font-family: 'IBM Plex Mono', monospace; font-weight: 600; font-size: 17px; color: oklch(0.45 0.02 250); margin-top: 10px; }
+  .pp-val.btc { color: oklch(0.6 0.16 55); }
+  .pp-sub { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(0.6 0.01 250); margin-top: 2px; }
+  @media (prefers-reduced-motion: reduce) {
+    .pp-stage * { animation: none !important; }
+    .pp-stage .cut, .pp-stage .scissors { display: none; }
+    .pp-stage .piece { transform: translate(-10px, 91px) rotate(90deg); filter: grayscale(1); opacity: 0.3; }
+  }
 
   .hero-multiplier { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.01em; color: oklch(0.6 0.16 55); margin: 22px 0 0; }
   .hero-card-note { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: oklch(0.62 0.01 250); margin: 10px 0 0; line-height: 1.5; }
@@ -160,22 +181,44 @@
     <div class="hero-card">
       <div class="hero-card-top">
         <h2>100 € guardados em 2016</h2>
-        <span>valor hoje</span>
+        <span>poder de compra hoje</span>
       </div>
 
-      <div class="bar-row">
-        <div class="bar-label"><span class="name">Em euros (poder de compra)</span><span class="val">≈ 75 €</span></div>
-        <div class="bar-track"><div class="bar-fill eur"></div></div>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="bill" viewBox="0 0 56 31">
+          <image width="56" height="31" preserveAspectRatio="none" href="data:image/webp;base64,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"/>
+          <rect x="0.25" y="0.25" width="55.5" height="30.5" rx="1.5" fill="none" stroke="oklch(0.55 0.05 150 / 0.5)" stroke-width="0.5"/>
+        </symbol>
+      </svg>
+
+      <div class="pp-cols">
+        <div>
+          <div class="pp-head"><span>Em euros</span></div>
+          <div class="pp-stage" aria-hidden="true">
+            <div class="slot"></div>
+            <svg class="keep" viewBox="0 0 43 31" preserveAspectRatio="none"><use href="#bill" width="56" height="31"/></svg>
+            <svg class="piece" viewBox="43 0 13 31" preserveAspectRatio="none"><use href="#bill" width="56" height="31"/></svg>
+            <div class="cut"></div>
+            <svg class="scissors" viewBox="0 0 24 32" fill="none" stroke="oklch(0.24 0.01 250)" stroke-width="2" stroke-linecap="round">
+              <g class="l"><circle cx="7" cy="6" r="4.2"/><path d="M9.5 9.5 L15 31"/></g>
+              <g class="r"><circle cx="17" cy="6" r="4.2"/><path d="M14.5 9.5 L9 31"/></g>
+            </svg>
+            <span class="loss-tag">−23 €</span>
+          </div>
+          <div class="pp-val" id="pp-eur">≈ 77 €</div>
+          <div class="pp-sub">0,77 notas</div>
+        </div>
+        <div>
+          <div class="pp-head"><span>Em Bitcoin</span><span class="coin"><b>₿</b>0,186 BTC</span></div>
+          <div class="pp-stage" id="pp-btc-stage" aria-hidden="true"></div>
+          <div class="pp-val btc" id="pp-btc">≈ 10 425 €</div>
+          <div class="pp-sub">104 notas</div>
+        </div>
       </div>
 
-      <div class="bar-row">
-        <div class="bar-label"><span class="name">Em Bitcoin</span><span class="val btc">≈ 16 294 €</span></div>
-        <div class="bar-track"><div class="bar-fill btc"></div></div>
-      </div>
+      <p class="hero-multiplier">136× mais poder de compra em Bitcoin</p>
 
-      <p class="hero-multiplier">217× mais valor em Bitcoin do que em euros</p>
-
-      <p class="hero-card-note">Fontes reais: INE (IPC, inflação acumulada ~24-25% desde 2016) e preço BTC/EUR.</p>
+      <p class="hero-card-note">1 nota = 100 € de 2016. Os 100 € compraram 0,186 BTC (preço médio de 2016: 537 €) — continuam a ser 0,186 BTC hoje. Fontes: Eurostat (IHPC Portugal, inflação acumulada de 30,4% entre a média de 2016 e set. 2026) e preço BTC/EUR (out. 2026).</p>
     </div>
   </section>
 
@@ -294,6 +337,50 @@
       </div>
     </div>
   </footer>
+
+<script>
+  // Hero: 100 € saved in 2016, measured in 2016 buying power. 1 note = 100 €.
+  // Euro side keeps 0.77 of a note; Bitcoin side piles up all 104 notes.
+  (function () {
+    var EUR_END = 77, BTC_END = 10425, NOTES = 104, PER_ROW = 4, START = 600, STAGGER = 20, FALL = 700;
+    var stage = document.getElementById('pp-btc-stage');
+    var rows = Math.ceil(NOTES / PER_ROW);
+    var seed = 7;
+    function rand() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+
+    for (var i = 0; i < NOTES; i++) {
+      var row = Math.floor(i / PER_ROW), col = i % PER_ROW;
+      var x = Math.min(1, Math.max(0, col / (PER_ROW - 1) + (rand() - 0.5) * 0.18));
+      var bill = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      bill.setAttribute('class', 'bill fall');
+      bill.style.setProperty('--x', x.toFixed(3));
+      bill.style.setProperty('--y', (row / (rows - 1)).toFixed(3));
+      bill.style.setProperty('--r', ((rand() - 0.5) * 14).toFixed(1) + 'deg');
+      bill.style.setProperty('--r0', ((rand() - 0.5) * 60).toFixed(1) + 'deg');
+      bill.style.setProperty('--d', (START + i * STAGGER) + 'ms');
+      var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+      use.setAttribute('href', '#bill');
+      bill.appendChild(use);
+      stage.appendChild(bill);
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function count(el, from, to, delay, duration) {
+      var t0 = null;
+      function frame(t) {
+        if (t0 === null) t0 = t;
+        var p = Math.min(1, Math.max(0, (t - t0 - delay) / duration));
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = '≈ ' + Math.round(from + (to - from) * eased).toLocaleString('pt-PT') + ' €';
+        if (p < 1) requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+    count(document.getElementById('pp-eur'), 100, EUR_END, 2100, 900);
+    count(document.getElementById('pp-btc'), 100, BTC_END, START, NOTES * STAGGER + FALL);
+  })();
+</script>
 
 </body>
 </html>
